@@ -6,7 +6,6 @@ public class ToDo {
 	private int id;
 	private static int counter = -1;
 	private String title;
-	private enum Priority { LOW, MEDIUM, HIGH }
 	private Priority priority;
 	private String description;
 	private LocalDate dueDate;

@@ -4,7 +4,7 @@ import java.util.logging.Logger;
 
 public abstract class Message {
 	private Logger logger = Logger.getLogger("");
-	private MessageType type;
+	protected MessageType type;
 
 	public Message(MessageType type) {
 		this.type = type;
@@ -22,5 +22,7 @@ public abstract class Message {
 	public MessageType getType() {
 		return type;
 	}
+	
+	
 
 }
