@@ -7,7 +7,7 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Client {
+public class ClientServer {
 
 	public static void main(String[] args) {
 		String ipAddress = null;
@@ -73,5 +73,4 @@ public class Client {
 		}
 		return formatOK;
 	}
-
 }
