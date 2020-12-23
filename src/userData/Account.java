@@ -13,7 +13,15 @@ public class Account {
 		this.token = generateToken();
 	}
 	
-	private String generateToken() {
+	private static String generateToken() {
+		int stringSize = 20;
+		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		String token = "";
+		for (int i = 0; i < stringSize; i++) {
+			char letter = characters.charAt((int) (Math.random() * characters.length()));
+			token = token + letter;
+		}
 		return token;
 	}
+
 }
