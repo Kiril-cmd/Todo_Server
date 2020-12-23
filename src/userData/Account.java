@@ -1,16 +1,19 @@
 package userData;
 
+import java.util.ArrayList;
+
 public class Account {
 	private String userName;
 	private String password;
 	private final String token;
+	private ArrayList<ToDo> toDoList;
 	
 	
 	Account (String userName, String password){
 		this.userName = userName;
 		this.password = password;
-		
 		this.token = generateToken();
+		this.toDoList = new ArrayList<>();
 	}
 	
 	private static String generateToken() {
