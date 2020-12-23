@@ -1,18 +1,21 @@
 package messaging;
 
 public class CreateLogin_msg extends Message {
-	private String name;
+	private String userName;
+	private String password;
+	
 		
-	public CreateLogin_msg(String name) {
+	public CreateLogin_msg(String userName, String password) {
 		super(MessageType.CREATE_LOGIN);
-		this.name = name;
+		this.userName = userName;
+		this.password = password;
 	}
-	public String getName() {
-		return name;
+	public String getUserName() {
+		return userName;
 	}
 	
 	@Override
 	public String toString() {
-		return type.toString() + '|' + name;
+		return type.toString() + '|' + userName + '|' + password;
 	}
 }
