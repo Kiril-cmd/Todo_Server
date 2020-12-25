@@ -4,10 +4,10 @@ public class GetToDo_msg extends Message {
 	private int id;
 	private String token;
 	
-	public GetToDo_msg(String token, int id) {
+	public GetToDo_msg(String token, String id) {
 		super(MessageType.GET_TODO);
 		this.token = token;
-		this.id = id;
+		this.id = Integer.parseInt(id);
 	}
 	
 	public String toString() {

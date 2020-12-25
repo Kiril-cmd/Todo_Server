@@ -30,8 +30,23 @@ public abstract class Message {
 			} else if (msgParts[0].equals(MessageType.LOGIN.toString())) {
 				msg = new Login_msg(msgParts[1], msgParts[2]);
 			} else if (msgParts[0].equals(MessageType.CHANGE_PASSWORD.toString())) {
-				 msg = new ChatMsg(msgParts[1], msgParts[2]);
-			}
+				msg = new ChangePassword_msg(msgParts[1], msgParts[2]);
+			} else if (msgParts[0].equals(MessageType.LOGOUT.toString())) {
+				msg = new Logout_msg();
+			} else if (msgParts[0].equals(MessageType.CREATE_TODO.toString())) {
+				msg = new CreateToDo_msg(msgParts[1], msgParts[2], msgParts[3], msgParts[4], msgParts[5]);
+			} else if (msgParts[0].equals(MessageType.GET_TODO.toString())) {
+				msg = new GetToDo_msg(msgParts[1], msgParts[2]);
+			} else if (msgParts[0].equals(MessageType.DELETE_TODO.toString())) {
+				msg = new DeleteToDo_msg(msgParts[1], msgParts[2]);
+			} else if (msgParts[0].equals(MessageType.LIST_TODOS.toString())) {
+				msg = new ListToDos_msg(msgParts[1]);
+			} else if (msgParts[0].equals(MessageType.PING.toString())) {
+				msg = new Ping_msg(msgParts[1]);
+			} else if (msgParts[0].equals(MessageType.RESULT.toString())) {
+				msg = new Result_msg(msgParts[1], msgParts[2]);
+			} 
+		
 		} catch(IOException e) {
 			logger.warning(e.toString());
 		}

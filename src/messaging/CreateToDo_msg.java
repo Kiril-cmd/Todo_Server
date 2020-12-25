@@ -10,13 +10,13 @@ public class CreateToDo_msg extends Message {
 	private String description;
 	private LocalDate dueDate;
 
-	public CreateToDo_msg(String title, String token, Priority priority, String description, LocalDate dueDate) {
+	public CreateToDo_msg(String title, String token, String priority, String description, String dueDate) {
 		super(MessageType.CREATE_TODO);
 		this.token = token;
 		this.title = title;
-		this.priority = priority;
+		this.priority = Priority.valueOf(priority);
 		this.description = description;
-		this.dueDate = dueDate;
+		this.dueDate = LocalDate.parse(dueDate);
 	}
 	
 	@Override
