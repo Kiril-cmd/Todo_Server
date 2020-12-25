@@ -1,13 +1,15 @@
 package messaging;
 
-import java.util.ArrayList;
-
 public class ListToDos_msg extends Message {
-	ArrayList<Integer> idList;
+	String token;
 	
-	public ListToDos_msg(ArrayList<Integer> idList) {
+	public ListToDos_msg(String token) {
 		super(MessageType.LIST_TODOS);
-		this.idList = idList;
+		this.token = token;
+	}
+	
+	public String toString() {
+		return type.toString() + '|' + token;
 	}
 
 }

@@ -9,5 +9,9 @@ public class GetToDo_msg extends Message {
 		this.token = token;
 		this.id = id;
 	}
+	
+	public String toString() {
+		return type.toString() + '|' + token + '|' + Integer.toString(id);
+	}
 
 }
