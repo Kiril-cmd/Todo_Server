@@ -1,7 +1,7 @@
 package messaging;
 
 public class Ping_msg extends Message {
-	private String token;
+	private String token = null;
 	
 	public Ping_msg() {
 		super(MessageType.PING);
@@ -14,6 +14,10 @@ public class Ping_msg extends Message {
 
 	@Override
 	public String toString() {
-		return type.toString();
+		if(token != null)
+			return type.toString() + '|' + token;
+		else 
+			return type.toString();
 	}
 }
+

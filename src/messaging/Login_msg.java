@@ -6,11 +6,16 @@ public class Login_msg extends Message{
 	
 	public Login_msg(String userName, String password) {
 		super(MessageType.LOGIN);
-		
+		this.userName = userName;
+		this.password = password;
 	}
-		
+	
 	public String getUserName() {
 		return userName;
+	}
+	
+	public String getPassword() {
+		return password;
 	}
 	
 	@Override

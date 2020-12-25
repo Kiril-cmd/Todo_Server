@@ -9,7 +9,8 @@ public enum MessageType {
 	GET_TODO,
 	DELETE_TODO,
 	LIST_TODOS,
-	PING;
+	PING,
+	RESULT;
 	
 }
 
