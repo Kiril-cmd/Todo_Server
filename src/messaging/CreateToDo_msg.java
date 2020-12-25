@@ -25,6 +25,4 @@ public class CreateToDo_msg extends Message {
 				+ priority + '|' + description + '|' + dueDate; 
 	}
 	
-	
-	
 }
