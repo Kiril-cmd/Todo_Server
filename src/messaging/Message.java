@@ -8,14 +8,14 @@ import java.net.Socket;
 import java.util.logging.Logger;
 
 public abstract class Message {
-	private Logger logger = Logger.getLogger("");
+	private static Logger logger = Logger.getLogger("");
 	protected MessageType type;
 
 	public Message(MessageType type) {
 		this.type = type;
 	}
 	
-	public Message receiveMessage(Socket socket) {
+	public static Message receiveMessage(Socket socket) {
 		BufferedReader in;
 		Message msg = null;
 		try {
