@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import jat.ServiceLocator;
 import jat.abstractClasses.Model;
 import jat.commonClasses.Client;
+import userData.Account;
 
 /**
  * Copyright 2015, FHNW, Prof. Dr. Brad Richards. All rights reserved. This code
@@ -33,7 +34,7 @@ public class App_Model extends Model {
     	serviceLocator.getLogger().info("Start Server");
     	try {
     		listener = new ServerSocket(port, 10, null);
-    		Runnable r = new Runnable() {
+    		Runnable runnable = new Runnable() {
 				@Override
 				public void run() {
 					try {
@@ -45,6 +46,8 @@ public class App_Model extends Model {
 					}					
 				}   			
     		};
+    		Thread thread = new Thread(runnable);
+    		thread.start();
     	} catch (IOException e) {
     		serviceLocator.getLogger().info(e.toString());
     	}
@@ -63,6 +66,12 @@ public class App_Model extends Model {
     		} catch (IOException e) {
     		}
     	}
+    }
+    
+    public Account createAccount(String username, String password) {
+    	Account account = new Account(username, password);
+    	
+    	return account;
     }
  
 }
