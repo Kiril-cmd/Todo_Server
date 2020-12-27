@@ -12,16 +12,17 @@ import javafx.beans.property.SimpleStringProperty;
 import messaging.*;
 
 public class Model {
-	/*
+	
 	protected SimpleStringProperty newestMessage = new SimpleStringProperty();
 	
 	private Logger logger = Logger.getLogger("");
 	private Socket socket;
 	private String name;
+	private String command;
 	
-	public void connect(String ipAddress, int Port, String name) {
+	
+	public void connect(String ipAddress, int Port) {
 		logger.info("Connect");
-		this.name = name;
 		try {
 			socket = new Socket(ipAddress, Port);
 			
@@ -30,25 +31,15 @@ public class Model {
 				@Override
 				public void run() {
 					while (true) {
-						System.out.println("Please login");
-						Message msg = (Message) Message.receiveMessage(socket);
-						
-						// If the client is sending the _same_ message as before, we cannot simply
-						// set the property, because this would not be a change, and the change
-						// listener will not trigger. Therefore, we first erase the previous message.
-						// This is a change, but empty messages are ignored by the change-listener
-						newestMessage.set(""); // erase previous message
-						newestMessage.set(msg.getName() + ": " + msg.getContent());
+						Result_msg msg = (Result_msg) Message.receiveMessage(socket);
+						System.out.println(msg);
 					}
 				}
 			};
 			Thread t = new Thread(r);
 			t.start();
 
-			// Send join message to the server
-			Message msg = new JoinMsg(name);
-			msg.sendMessage(socket);
-		} catch (Exception e) {
+			} catch (Exception e) {
 			logger.warning(e.toString());
 		}
 	}
@@ -63,19 +54,48 @@ public class Model {
 			}
 	}
 
-	public void sendMessage(String message) {
-		logger.info("Send message");
-		Message msg = new ChatMsg(name, message);
-		msg.sendMessage(socket);
+	public void sendMessage() {
+		// Create thread to send messages
+		Runnable r = new Runnable() {
+			@Override
+			public void run() {
+			logger.info("Send message");
+			Scanner in = new Scanner(System.in);
+				while(true) {
+					Message msg = null;
+					command = in.nextLine();
+					
+					String msgParts[] = command.split("\\|");
+					if (msgParts[0].equals(MessageType.CREATE_LOGIN.toString())) {
+						msg = new CreateLogin_msg(msgParts[1], msgParts[2]);
+					} else if (msgParts[0].equals(MessageType.LOGIN.toString())) {
+						msg = new Login_msg(msgParts[1], msgParts[2]);
+					} else if (msgParts[0].equals(MessageType.CHANGE_PASSWORD.toString())) {
+						msg = new ChangePassword_msg(msgParts[1], msgParts[2]);
+					} else if (msgParts[0].equals(MessageType.LOGOUT.toString())) {
+						msg = new Logout_msg();
+					} else if (msgParts[0].equals(MessageType.CREATE_TODO.toString())) {
+						msg = new CreateToDo_msg(msgParts[1], msgParts[2], msgParts[3], msgParts[4], msgParts[5]);
+					} else if (msgParts[0].equals(MessageType.GET_TODO.toString())) {
+						msg = new GetToDo_msg(msgParts[1], msgParts[2]);
+					} else if (msgParts[0].equals(MessageType.DELETE_TODO.toString())) {
+						msg = new DeleteToDo_msg(msgParts[1], msgParts[2]);
+					} else if (msgParts[0].equals(MessageType.LIST_TODOS.toString())) {
+						msg = new ListToDos_msg(msgParts[1]);
+					} else if (msgParts[0].equals(MessageType.PING.toString())) {
+						msg = new Ping_msg(msgParts[1]);
+					} else if (msgParts[0].equals(MessageType.RESULT.toString())) {
+						msg = new Result_msg(msgParts[1], msgParts[2]);
+					} 
+					msg.sendMessage(socket);
+				}
+			}
+		};
+		Thread t = new Thread(r);
+		t.start();
+		// Message msg = new Result(name, message);
+		// msg.sendMessage(socket);
 	}
 
-	public String receiveMessage() {
-		logger.info("Receive message");
-		return newestMessage.get();
-	}
-		
-	}
-	
-	*/
-	
 }
+	
