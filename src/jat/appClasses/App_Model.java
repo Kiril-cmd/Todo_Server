@@ -1,7 +1,14 @@
 package jat.appClasses;
 
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+
+
 import jat.ServiceLocator;
 import jat.abstractClasses.Model;
+import jat.commonClasses.Client;
 
 /**
  * Copyright 2015, FHNW, Prof. Dr. Brad Richards. All rights reserved. This code
@@ -11,23 +18,44 @@ import jat.abstractClasses.Model;
  * @author Brad Richards
  */
 public class App_Model extends Model {
+	private ArrayList<Client> clients = new ArrayList<>();
+	
     ServiceLocator serviceLocator;
-    private int value;
+    ServerSocket listener;
+    private volatile boolean stop = false;
     
     public App_Model() {
-        value = 0;
-        
         serviceLocator = ServiceLocator.getServiceLocator();        
         serviceLocator.getLogger().info("Application model initialized");
     }
     
-    public int getValue() {
-        return value;
+    public void startServer(int port) {
+    	serviceLocator.getLogger().info("Start Server");
+    	try {
+    		listener = new ServerSocket(port, 10, null);
+    		Runnable r = new Runnable() {
+				@Override
+				public void run() {
+					try {
+						Socket socket = listener.accept();
+						Client client = new Client(App_Model.this, socket);
+						clients.add(client);	
+					} catch (IOException e) {
+						serviceLocator.getLogger().info(e.toString());
+					}					
+				}   			
+    		};
+    	} catch (IOException e) {
+    		serviceLocator.getLogger().info(e.toString());
+    	}
     }
     
-    public int incrementValue() {
-        value++;
-        serviceLocator.getLogger().info("Application model: value incremented to " + value);
-        return value;
+    public void stopServer() {
+    	serviceLocator.getLogger().info("Stop server");
+    	for (Client client : clients) {
+    		client.stop();
+    	}
+    	
     }
+ 
 }

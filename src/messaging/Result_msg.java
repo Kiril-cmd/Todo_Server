@@ -1,20 +1,18 @@
 package messaging;
 
-import userData.ToDo;
-
 public class Result_msg extends Message {
 	private boolean result;
-	private ToDo todo;
-	private String todoString;
+	private String data;
+	private String token;
 	
-	public Result_msg(String result, String todo) {
+	public Result_msg(String result, String data) {
 		super(MessageType.RESULT);
 		this.result = Boolean.parseBoolean(result);
-		this.todoString = todo;
+		this.data = data;
 	}
 
 	@Override
 	public String toString() {
-		return type.toString() + '|' + result + '|' + todoString;
+		return type.toString() + '|' + result + '|' + data;
 	}
 }
