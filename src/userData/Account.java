@@ -9,7 +9,7 @@ public class Account {
 	private ArrayList<ToDo> toDoList;
 	
 	
-	Account (String userName, String password){
+	public Account (String userName, String password){
 		this.userName = userName;
 		this.password = password;
 		this.token = generateToken();
