@@ -4,6 +4,8 @@ import java.net.Socket;
 
 import jat.ServiceLocator;
 import jat.appClasses.App_Model;
+import messaging.Message;
+import messaging.Message;
 import userData.Account;
 
 public class Client {
@@ -15,6 +17,16 @@ public class Client {
 	public Client(App_Model model, Socket socket) {
 		this.model = model;
 		this.socket = socket;
+		
+		Runnable r = new Runnable() {
+			@Override
+			public void run() {
+				while(true) {
+		
+				}
+			}
+			
+		};
 	}
 	
 	public void setAccount(Account account) {

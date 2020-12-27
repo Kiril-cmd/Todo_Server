@@ -51,11 +51,18 @@ public class App_Model extends Model {
     }
     
     public void stopServer() {
-    	serviceLocator.getLogger().info("Stop server");
-    	for (Client client : clients) {
+    	serviceLocator.getLogger().info("Stop running clients");
+    	for (Client client : clients)
     		client.stop();
-    	}
     	
+    	serviceLocator.getLogger().info("Stop server");
+    	stop = true;
+    	if (listener != null) {
+    		try {
+    			listener.close();
+    		} catch (IOException e) {
+    		}
+    	}
     }
  
 }
