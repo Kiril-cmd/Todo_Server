@@ -6,72 +6,72 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.logging.Logger;
+
+import messaging.*;
 
 public class Model {
-	/*
-	private String ipAddress = null;
-	private int port = 0;
+	private Logger logger = Logger.getLogger("");
+	private Socket socket;
+	private String name;
 	
-	
-
-	try (Scanner in = new Scanner(System.in)) {
-		// Read IP address (no validation)
-		System.out.println("Enter the address of the server");
-		ipAddress = in.nextLine();
-
-		// Read port number (validated)
-		boolean valid = false;
-		while (!valid) {
-			System.out.println("Enter the port number on the server (1024-65535)");
-			String strPort = in.nextLine();
-			valid = validatePortNumber(strPort);
-			if (valid) port = Integer.parseInt(strPort);
-		}
-
-		try (Socket socket = new Socket(ipAddress, port);
-			BufferedReader socketIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			OutputStreamWriter socketOut = new OutputStreamWriter(socket.getOutputStream())) {
-			System.out.println("Connected");
+	public void connect(String ipAddress, int Port, String name) {
+		logger.info("Connect");
+		this.name = name;
+		try {
+			socket = new Socket(ipAddress, Port);
+			
 			// Create thread to read incoming messages
 			Runnable r = new Runnable() {
 				@Override
 				public void run() {
-					String msg = ""; // Anything except null
-					while (msg != null) { // Will be null if the server closes the socket
-						try {
-							msg = socketIn.readLine();
-							System.out.println("Received: " + msg);
-						} catch (IOException e) {
-							msg = null; // end loop if we have a communications error
-						}
+					while (true) {
+						System.out.println("Please login");
+						Message msg = (Message)receiveMessage(socket);
+						
+						// If the client is sending the _same_ message as before, we cannot simply
+						// set the property, because this would not be a change, and the change
+						// listener will not trigger. Therefore, we first erase the previous message.
+						// This is a change, but empty messages are ignored by the change-listener
+						newestMessage.set(""); // erase previous message
+						newestMessage.set(msg.getName() + ": " + msg.getContent());
 					}
 				}
 			};
 			Thread t = new Thread(r);
 			t.start();
 
-			// Allowing the user to send messages to the server
-			// Note: We are using the same Scanner defined earlier
-			System.out.println("Enter commands to server or ctrl-D to quit");
-			while (in.hasNext()) {
-				String line = in.nextLine();
-				socketOut.write(line + "\n");
-				socketOut.flush();
-				System.out.println("Sent: " + line);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+			// Send join message to the server
+			Message msg = new JoinMsg(name);
+			msg.send(socket);
+		} catch (Exception e) {
+			logger.warning(e.toString());
 		}
+	}
+
+	public void disconnect() {
+		logger.info("Disconnect");
+		if (socket != null)
+			try {
+				socket.close();
+			} catch (IOException e) {
+				// Uninteresting
+			}
+	}
+
+	public void sendMessage(String message) {
+		logger.info("Send message");
+		Message msg = new ChatMsg(name, message);
+		msg.send(socket);
+	}
+
+	public String receiveMessage() {
+		logger.info("Receive message");
+		return newestMessage.get();
+	}
+		
 	}
 	
-	private static boolean validatePortNumber(String portText) {
-		boolean formatOK = false;
-		try {
-			int portNumber = Integer.parseInt(portText);
-			formatOK = (portNumber >= 1024 & portNumber <= 65535);
-		} catch (NumberFormatException e) {
-		}
-		return formatOK;
-	}
-	*/
+	
+	
 }
