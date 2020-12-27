@@ -38,6 +38,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
         
         serviceLocator = ServiceLocator.getServiceLocator();        
         serviceLocator.getLogger().info("Application controller initialized");
+        model.startServer(50002);
     }
     
     public void buttonClick() {
