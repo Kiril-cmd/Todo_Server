@@ -88,7 +88,6 @@ public class App_Model extends Model {
 			Account account = iterator.next();
 			if (account.getUserName().equals(username) && account.getPassword().equals(password)) {
 				client.setToken();
-				client.setAccount(account);
 				msg = new Result_msg("true", client.getToken());
 				exists = true;
 			} else if (!iterator.hasNext() && !exists) {
@@ -100,13 +99,12 @@ public class App_Model extends Model {
 	
 	public void changePassword(String newPassword, String token, Client client) {
 		Result_msg msg = null;		
-		if (client.getToken().equals(token) && client.getAccount() != null) {
+		if (client.getToken().equals(token)) {
 			Iterator<Account> iterator = accounts.iterator();
 			while (iterator.hasNext()) {
 				Account account = iterator.next();
-				if (account.getUserName().equals(client.getAccount().getUserName())) {
+				if (account.getUserName().equals(client.getUserName())) {
 					iterator.next().setPassword(newPassword);
-					client.setAccount(iterator.next());
 					msg = new Result_msg("true");
 					break;
 				}
