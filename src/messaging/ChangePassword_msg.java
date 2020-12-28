@@ -5,7 +5,7 @@ public class ChangePassword_msg extends Message{
 	private String password;
 	private String token;
 	
-	public ChangePassword_msg(String name, String password) {
+	public ChangePassword_msg(String userName, String password) {
 		super(MessageType.CHANGE_PASSWORD);
 		this.password = password;
 	}

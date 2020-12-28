@@ -5,11 +5,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.time.LocalDate;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import messaging.*;
+import userData.Priority;
+import userData.ToDo;
 
 public class Model {
 	
@@ -19,6 +24,17 @@ public class Model {
 	private Socket socket;
 	private String name;
 	private String command;
+	
+	private final ObservableList<ToDo> elements = FXCollections.observableArrayList();
+
+	public void addNewElement(String title, Priority priority, String description, LocalDate dueDate) {
+		elements.add(new ToDo(title, priority, description, dueDate));
+	}
+
+	// getters and setters
+	public ObservableList<ToDo> getElements() {
+		return elements;
+	}
 	
 	
 	public void connect(String ipAddress, int Port) {
@@ -63,39 +79,72 @@ public class Model {
 			Scanner in = new Scanner(System.in);
 				while(true) {
 					Message msg = null;
-					command = in.nextLine();
 					
 					String msgParts[] = command.split("\\|");
-					if (msgParts[0].equals(MessageType.CREATE_LOGIN.toString())) {
-						msg = new CreateLogin_msg(msgParts[1], msgParts[2]);
-					} else if (msgParts[0].equals(MessageType.LOGIN.toString())) {
-						msg = new Login_msg(msgParts[1], msgParts[2]);
-					} else if (msgParts[0].equals(MessageType.CHANGE_PASSWORD.toString())) {
-						msg = new ChangePassword_msg(msgParts[1], msgParts[2]);
-					} else if (msgParts[0].equals(MessageType.LOGOUT.toString())) {
-						msg = new Logout_msg();
-					} else if (msgParts[0].equals(MessageType.CREATE_TODO.toString())) {
-						msg = new CreateToDo_msg(msgParts[1], msgParts[2], msgParts[3], msgParts[4], msgParts[5]);
-					} else if (msgParts[0].equals(MessageType.GET_TODO.toString())) {
-						msg = new GetToDo_msg(msgParts[1], msgParts[2]);
-					} else if (msgParts[0].equals(MessageType.DELETE_TODO.toString())) {
-						msg = new DeleteToDo_msg(msgParts[1], msgParts[2]);
-					} else if (msgParts[0].equals(MessageType.LIST_TODOS.toString())) {
-						msg = new ListToDos_msg(msgParts[1]);
-					} else if (msgParts[0].equals(MessageType.PING.toString())) {
-						msg = new Ping_msg(msgParts[1]);
-					} else if (msgParts[0].equals(MessageType.RESULT.toString())) {
-						msg = new Result_msg(msgParts[1], msgParts[2]);
-					} 
-					msg.sendMessage(socket);
+					
 				}
 			}
 		};
 		Thread t = new Thread(r);
 		t.start();
-		// Message msg = new Result(name, message);
-		// msg.sendMessage(socket);
 	}
-
+	
+	// Commands
+	public void CreateLogin(String email, String password) {
+		CreateLogin_msg msg = new CreateLogin_msg(email, password);
+		msg.sendMessage(socket);
+	}
+	
+	public void Login(String email, String password) {
+		Login_msg msg = new Login_msg(email, password);
+		msg.sendMessage(socket);
+	}
+	
+	public void ChangePassword(String email, String password) {
+		ChangePassword_msg msg = new ChangePassword_msg(email, password);
+		msg.sendMessage(socket);
+	}
+	
+	public void Logout() {
+		Logout_msg msg = new Logout_msg();
+		msg.sendMessage(socket);
+	}
+	
+	public void CreateTodo(String title, String token, String priority, String description) {
+		CreateToDo_msg msg = new CreateToDo_msg (title, token, priority, description);
+		msg.sendMessage(socket);
+	}
+	
+	public void CreateTodo(String title, String token, String priority, String description, String dueDate) {
+		CreateToDo_msg msg = new CreateToDo_msg (title, token, priority, description, dueDate);
+		msg.sendMessage(socket);
+	}
+	
+	public void GetTodo(String token, String id) {
+		GetToDo_msg msg = new GetToDo_msg (token, id);
+		msg.sendMessage(socket);
+	}
+	
+	public void DeleteTodo(String token, String id) {
+		DeleteToDo_msg msg = new DeleteToDo_msg(token, id);
+		msg.sendMessage(socket);
+	}
+	
+	public void ListTodos(String token) {
+		ListToDos_msg msg = new ListToDos_msg(token);
+		msg.sendMessage(socket);
+	}
+	
+	public void Ping(String token) {
+		Ping_msg msg = new Ping_msg(token);
+		msg.sendMessage(socket);
+	}
+	
+	public void Result(String result, String data) {
+		Result_msg msg = new Result_msg(result, data);
+		msg.sendMessage(socket);
+	}
+	
+	
 }
 	
