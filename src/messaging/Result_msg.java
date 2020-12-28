@@ -5,6 +5,11 @@ public class Result_msg extends Message {
 	private String data;
 	private String token;
 	
+	public Result_msg(String result) {
+		super(MessageType.RESULT);
+		this.result = Boolean.parseBoolean(result);
+	}
+	
 	public Result_msg(String result, String data) {
 		super(MessageType.RESULT);
 		this.result = Boolean.parseBoolean(result);
