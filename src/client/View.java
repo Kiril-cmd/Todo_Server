@@ -56,11 +56,11 @@ public class View {
 	}
 	
 	public void setTodoView() {
-		root = todoView();
+		todoView();
 		
 	}
 
-	public BorderPane todoView() {
+	public void todoView() {
 		Region spacer = new Region();
 		Region spacer2 = new Region();
 		spacer.setPrefHeight(20);
@@ -82,7 +82,10 @@ public class View {
 		root.setCenter(hbox);
 		root.setBottom(todoList);
 		
-		return root;
+		Scene scene = new Scene(root);
+		stage.setScene(scene);
+		scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+		stage.setTitle("Client");
 	}
 	
 	protected BorderPane loginView() {
