@@ -3,6 +3,7 @@ package jat.appClasses;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -11,6 +12,8 @@ import jat.abstractClasses.Model;
 import jat.commonClasses.Client;
 import messaging.Result_msg;
 import userData.Account;
+import userData.Priority;
+import userData.ToDo;
 
 /**
  * Copyright 2015, FHNW, Prof. Dr. Brad Richards. All rights reserved. This code
@@ -126,8 +129,20 @@ public class App_Model extends Model {
 		client.send(msg);
 	}
 	
-	public void createToDo() {
+	public void createToDo(String title, Priority priority, String description, LocalDate dueDate, Client client) {
+		ToDo toDo = new ToDo(title, priority, description, dueDate);
+		Iterator<Account> iterator = accounts.iterator();
+		Result_msg msg = null;
 		
+		while (iterator.hasNext()) {
+			Account account = iterator.next();
+			if (account.getUserName().equals(client.getUserName())) {
+				iterator.next().addToDo(toDo);
+				msg = new Result_msg("true");
+				break;
+			}
+		}
+		client.send(msg);
 	}
  
 }

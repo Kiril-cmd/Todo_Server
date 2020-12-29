@@ -35,7 +35,7 @@ public class Client {
 						model.changePassword(cpMsg.getPassword(), cpMsg.getToken(), Client.this);						
 					} else if (msg instanceof CreateToDo_msg) {
 						CreateToDo_msg ctdMsg = (CreateToDo_msg) msg;
-						model.createToDo();
+						model.createToDo(ctdMsg.getTitle(), ctdMsg.getPriority(), ctdMsg.getDescription(), ctdMsg.getDueDate(), Client.this);
 					} else if (msg instanceof GetToDo_msg) {
 						
 					} else if (msg instanceof DeleteToDo_msg) {
