@@ -37,7 +37,6 @@ public class Controller {
 				} else {
 					System.out.println("Wrong data");
 				}
-				
 			} else if (model.lastSentMessage.equals("Login")) {
 				
 			} else if (model.lastSentMessage.equals("ChangePassword")) {
