@@ -12,7 +12,7 @@ public class Client {
 	private App_Model model;
 	private Socket socket;
 	private String token;
-	private Account account;
+	private String userName;
 	
 	public Client(App_Model model, Socket socket) {
 		this.model = model;
@@ -25,15 +25,17 @@ public class Client {
 					Message msg = Message.receiveMessage(socket);
 					if (msg instanceof CreateLogin_msg) {
 						CreateLogin_msg clgMsg = (CreateLogin_msg) msg;
-						account = model.createAccount(clgMsg.getUserName(), clgMsg.getPassword(), Client.this);
+						model.createAccount(clgMsg.getUserName(), clgMsg.getPassword(), Client.this);
 					} else if (msg instanceof Login_msg) {
 						Login_msg lgMsg = (Login_msg) msg;
-						model.login(lgMsg.getUserName(), lgMsg.getPassword(), Client.this);
+						userName = lgMsg.getUserName();
+						model.login(userName, lgMsg.getPassword(), Client.this);
 					} else if (msg instanceof ChangePassword_msg) {
 						ChangePassword_msg cpMsg = (ChangePassword_msg) msg;
 						model.changePassword(cpMsg.getPassword(), cpMsg.getToken(), Client.this);						
 					} else if (msg instanceof CreateToDo_msg) {
-						
+						CreateToDo_msg ctdMsg = (CreateToDo_msg) msg;
+						model.createToDo(ctdMsg.getTitle(), ctdMsg.getPriority(), ctdMsg.getDescription(), ctdMsg.getDueDate(), Client.this);
 					} else if (msg instanceof GetToDo_msg) {
 						
 					} else if (msg instanceof DeleteToDo_msg) {
@@ -77,14 +79,6 @@ public class Client {
 		return token;
 	}
 	
-	public void setAccount(Account account) {
-		this.account = account;
-	}
-	
-	public Account getAccount() {
-		return account;
-	}
-	
 	public String getToken() {
 		return token;
 	}
@@ -94,6 +88,10 @@ public class Client {
 			this.token = generateToken();
 		else
 			this.token = null;
+	}
+	
+	public String getUserName() {
+		return userName;
 	}
 
 }

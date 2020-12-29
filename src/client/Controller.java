@@ -18,7 +18,8 @@ public class Controller {
 			String email = view.txtEmail.getText();
 			String password = view.txtPassword.getText();
 			model.CreateLogin(email, password);
-			if (model.newestMessage.getName().contains("Result|true")) {
+			System.out.println(model.newestMessage.getValue());
+			if (model.newestMessage.get().contentEquals("RESULT|true|null")) {
 				view.setTodoView();
 			}
 		});
@@ -27,7 +28,7 @@ public class Controller {
 			String email = view.txtEmail.getText();
 			String password = view.txtPassword.getText();
 			model.Login(email, password);
-			if (model.newestMessage.getName().contains("Result|true")) {
+			if (model.newestMessage.get().contentEquals("RESULT|true|null")) {
 				view.setTodoView();
 			}
 		});

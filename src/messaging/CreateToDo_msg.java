@@ -38,4 +38,24 @@ public class CreateToDo_msg extends Message {
 		}
 	}
 	
+	public String getToken() {
+		return token;
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+	
+	public Priority getPriority() {
+		return priority;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	
+	public LocalDate getDueDate() {
+		return dueDate;
+	}
+	
 }

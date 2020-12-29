@@ -25,4 +25,8 @@ public class Account {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	public void addToDo(ToDo newToDo) {
+		toDoList.add(newToDo);
+	}
 }
