@@ -18,6 +18,9 @@ public class Controller {
 			String email = view.txtEmail.getText();
 			String password = view.txtPassword.getText();
 			model.CreateLogin(email, password);
+			if (model.newestMessage.getName().contains("Result|true")) {
+				view.setTodoView();
+			}
 		});
 		
 		view.btnLogin.setOnAction(event -> {
