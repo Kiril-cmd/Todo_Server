@@ -29,7 +29,12 @@ public class View {
 	Label lblMytodos = new Label ("My Todos");
 	TextField txtNewtodo = new TextField();
 	Button btnAddtodo = new Button("Add new todo");
-	ComboBox cmbPriority = new ComboBox<>();
+	ComboBox<userData.Priority> cmbPriority = new ComboBox<>();
+	Label lblDescription = new Label("Description");
+	TextField txtDescription = new TextField();
+	
+	// Root
+	BorderPane root = new BorderPane();
      
 
 	
@@ -40,10 +45,9 @@ public class View {
 		this.stage = stage;
 		this.model = model;
 		
-		BorderPane root = new BorderPane(); 
-		root = login();
 		
-		root = todoView();
+		root = loginView();
+		//root = todoView();
 		
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
@@ -51,14 +55,23 @@ public class View {
 		stage.setTitle("Client");
 	}
 	
-	protected BorderPane todoView() {
+	public void setTodoView() {
+		root = todoView();
+		
+	}
+
+	public BorderPane todoView() {
 		Region spacer = new Region();
 		Region spacer2 = new Region();
 		spacer.setPrefHeight(20);
 		spacer2.setPrefWidth(20);
 		
+		// ComboBox default selection
+		cmbPriority.getItems().setAll(userData.Priority.values());
+		cmbPriority.getSelectionModel().select(userData.Priority.MEDIUM);
+		
 		VBox title = new VBox(lblMytodos);
-		HBox hbox = new HBox(txtNewtodo, spacer2, btnAddtodo);
+		HBox hbox = new HBox(txtNewtodo, spacer2, cmbPriority, txtDescription, btnAddtodo);
 		title.getStyleClass().add("vbox");
 		
 		HBox todoList = new HBox(listView);
@@ -72,7 +85,7 @@ public class View {
 		return root;
 	}
 	
-	protected BorderPane login() {
+	protected BorderPane loginView() {
 		Region spacer = new Region();
 		Region spacer2 = new Region();
 		Region spacer3 = new Region();
@@ -97,11 +110,12 @@ public class View {
 		return root;
 	}
 	
-	protected void start(){
+	public void start(){
 		stage.show();
 		
 		// Prevent resizing below initial size
 		stage.setMinWidth(stage.getWidth());
 		stage.setMinHeight(stage.getHeight());
 	}
+	
 }

@@ -22,10 +22,10 @@ public class Model {
 	
 	private Logger logger = Logger.getLogger("");
 	private Socket socket;
-	private String name;
-	private String command;
 	
 	private final ObservableList<ToDo> elements = FXCollections.observableArrayList();
+	
+	
 
 	public void addNewElement(String title, Priority priority, String description, LocalDate dueDate) {
 		elements.add(new ToDo(title, priority, description, dueDate));
@@ -48,6 +48,7 @@ public class Model {
 				public void run() {
 					while (true) {
 						Result_msg msg = (Result_msg) Message.receiveMessage(socket);
+						newestMessage.set(msg.toString());
 						System.out.println(msg);
 					}
 				}
@@ -70,24 +71,23 @@ public class Model {
 			}
 	}
 
-	public void sendMessage() {
-		// Create thread to send messages
-		Runnable r = new Runnable() {
-			@Override
-			public void run() {
-			logger.info("Send message");
-			Scanner in = new Scanner(System.in);
-				while(true) {
-					Message msg = null;
-					
-					String msgParts[] = command.split("\\|");
-					
-				}
-			}
-		};
-		Thread t = new Thread(r);
-		t.start();
-	}
+//	public void sendMessage() {
+//		// Create thread to send messages
+//		Runnable r = new Runnable() {
+//			@Override
+//			public void run() {
+//			logger.info("Send message");
+//			
+//				while(true) {
+//					Message msg = null;
+//					
+//					String msgParts[] = command.split("\\|");
+//				}
+//			}
+//		};
+//		Thread t = new Thread(r);
+//		t.start();
+//	}
 	
 	// Commands
 	public void CreateLogin(String email, String password) {
@@ -144,7 +144,6 @@ public class Model {
 		Result_msg msg = new Result_msg(result, data);
 		msg.sendMessage(socket);
 	}
-	
 	
 }
 	

@@ -4,11 +4,12 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-
+import java.util.Iterator;
 
 import jat.ServiceLocator;
 import jat.abstractClasses.Model;
 import jat.commonClasses.Client;
+import messaging.Result_msg;
 import userData.Account;
 
 /**
@@ -20,6 +21,7 @@ import userData.Account;
  */
 public class App_Model extends Model {
 	private ArrayList<Client> clients = new ArrayList<>();
+	private ArrayList<Account> accounts = new ArrayList<>();
 	
     ServiceLocator serviceLocator;
     ServerSocket listener;
@@ -68,10 +70,66 @@ public class App_Model extends Model {
     	}
     }
     
-    public Account createAccount(String username, String password) {
+    public Account createAccount(String username, String password, Client client) {
     	Account account = new Account(username, password);
+    	accounts.add(account);
+    	Result_msg msg = new Result_msg("true");
+    	client.send(msg);
     	
     	return account;
     }
+
+	public void login(String username, String password, Client client) {
+		boolean exists = false;
+		Result_msg msg = null;
+		Iterator<Account> iterator = accounts.iterator();
+		
+		while (iterator.hasNext() && exists == false) {
+			Account account = iterator.next();
+			if (account.getUserName().equals(username) && account.getPassword().equals(password)) {
+				client.setToken();
+				client.setAccount(account);
+				msg = new Result_msg("true", client.getToken());
+				exists = true;
+			} else if (!iterator.hasNext() && !exists) {
+				msg = new Result_msg("false");
+			}
+		}
+		client.send(msg);	
+	}
+	
+	public void changePassword(String newPassword, String token, Client client) {
+		Result_msg msg = null;		
+		if (client.getToken().equals(token) && client.getAccount() != null) {
+			Iterator<Account> iterator = accounts.iterator();
+			while (iterator.hasNext()) {
+				Account account = iterator.next();
+				if (account.getUserName().equals(client.getAccount().getUserName())) {
+					iterator.next().setPassword(newPassword);
+					client.setAccount(iterator.next());
+					msg = new Result_msg("true");
+					break;
+				}
+			}
+		} else {
+			msg = new Result_msg("false");
+		}
+		client.send(msg);
+	}
+	
+	public void Logout(Client client) {
+		Result_msg msg;
+		if (client.getToken() != null)
+			msg = new Result_msg("true");
+		else
+			msg = new Result_msg("false");
+		
+		client.setToken();
+		client.send(msg);
+	}
+	
+	public void createToDo() {
+		
+	}
  
 }

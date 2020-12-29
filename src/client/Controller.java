@@ -24,8 +24,13 @@ public class Controller {
 			String email = view.txtEmail.getText();
 			String password = view.txtPassword.getText();
 			model.Login(email, password);
+			if (model.newestMessage.getName().contains("Result|true")) {
+				view.setTodoView();
+			}
 		});
 		
 		
+		
+		view.stage.setOnCloseRequest(event -> model.disconnect());
 	}
 }
