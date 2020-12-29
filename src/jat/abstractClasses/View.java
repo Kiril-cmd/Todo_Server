@@ -35,7 +35,7 @@ public abstract class View<M extends Model> {
      * Display the view
      */
     public void start() {
-        stage.show();
+//        stage.show();
     }
     
     /**
