@@ -50,4 +50,16 @@ public class Account {
 		}
 		return false;
 	}
+	
+	public String toDoListToString() {
+		String toDos = null;
+		Iterator<ToDo> iterator = toDoList.iterator();
+		while (iterator.hasNext()) {
+			if (iterator.hasNext() != false)
+				toDos += iterator.next().getId() + '|';
+			else
+				toDos += iterator.next().getId();
+		}
+		return toDos;
+	}
 }

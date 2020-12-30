@@ -43,11 +43,12 @@ public class Client {
 						DeleteToDo_msg specMsg = (DeleteToDo_msg) msg;
 						model.deleteToDo(specMsg.getId(), specMsg.getToken(), Client.this);
 					} else if (msg instanceof ListToDos_msg) {
-						
+						ListToDos_msg specMsg = (ListToDos_msg) msg;
+						model.listToDos(specMsg.getToken(), Client.this);
 					} else if (msg instanceof Ping_msg) {
-						
+						Ping_msg specMsg = (Ping_msg) msg;
+						model.getPing(specMsg.getToken(), Client.this);
 					} else if (msg instanceof Logout_msg) {
-						Logout_msg loMsg = (Logout_msg) msg;
 						model.Logout(Client.this);
 					}
 				}

@@ -188,8 +188,31 @@ public class App_Model extends Model {
 		client.send(msg);		
 	}
 	
-	public void listToDos() {
+	public void listToDos(String token, Client client) {
+		Result_msg msg = new Result_msg("false");
+		if (!client.getToken().equals(token)) {
+			client.send(msg);
+			return;
+		}
 		
+		Iterator<Account> iterator = accounts.iterator();
+		while (iterator.hasNext()) {
+			Account account = iterator.next();
+			if (account.getUserName().equals(client.getUserName()))
+				msg = new Result_msg("true", account.toDoListToString());
+		}
+		client.send(msg);
+	}
+	
+	public void getPing(String token, Client client) {
+		Result_msg msg;
+		
+		if (client.getToken().equals(token) || token == null)
+			msg = new Result_msg("true");
+		else
+			msg = new Result_msg("false");
+		
+		client.send(msg);			
 	}
  
 }
