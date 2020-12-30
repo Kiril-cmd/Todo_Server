@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -49,6 +50,7 @@ public class Model {
 					while (true) {
 						Result_msg msg = (Result_msg) Message.receiveMessage(socket);
 						newestMessage.set(msg.toString());
+						
 						System.out.println(msg);
 					}
 				}
@@ -114,13 +116,7 @@ public class Model {
 		lastSentMessage = "Logout";
 	}
 	
-	public void CreateTodo(String title, String token, String priority, String description) {
-		CreateToDo_msg msg = new CreateToDo_msg (title, token, priority, description);
-		msg.sendMessage(socket);
-		lastSentMessage = "CreateTodo";
-	}
-	
-	public void CreateTodo(String title, String token, String priority, String description, String dueDate) {
+	public void CreateTodo(String title, String token, Priority priority, String description, LocalDate dueDate) {
 		CreateToDo_msg msg = new CreateToDo_msg (title, token, priority, description, dueDate);
 		msg.sendMessage(socket);
 		lastSentMessage = "CreateTodo";

@@ -3,10 +3,12 @@ package client;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -27,11 +29,15 @@ public class View {
 	
 	// Add Todos
 	Label lblMytodos = new Label ("My Todos");
-	TextField txtNewtodo = new TextField();
-	Button btnAddtodo = new Button("Add new todo");
+	Label lblTitle = new Label ("Title");
+	TextField txtTitle = new TextField();
+	Label lblPriority = new Label("Priority");
 	ComboBox<userData.Priority> cmbPriority = new ComboBox<>();
 	Label lblDescription = new Label("Description");
 	TextField txtDescription = new TextField();
+	Label lblDuedate = new Label("Due date");
+	DatePicker dueDate = new DatePicker();
+	Button btnAddtodo = new Button("Add new todo");
 	
 	// Root
 	BorderPane root = new BorderPane();
@@ -71,15 +77,29 @@ public class View {
 		cmbPriority.getSelectionModel().select(userData.Priority.MEDIUM);
 		
 		VBox title = new VBox(lblMytodos);
-		HBox hbox = new HBox(txtNewtodo, spacer2, cmbPriority, txtDescription, btnAddtodo);
+		GridPane gridPane = new GridPane();
+		gridPane.setHgap(10);
+		gridPane.setVgap(10);
+		
+		gridPane.add(lblTitle, 0, 0);
+		gridPane.add(lblPriority, 1, 0);
+		gridPane.add(lblDescription, 2, 0);
+		gridPane.add(lblDuedate, 3, 0);
+		
+		gridPane.add(txtTitle, 0, 1);
+		gridPane.add(cmbPriority, 1, 1);
+		gridPane.add(txtDescription, 2, 1);
+		gridPane.add(dueDate, 3, 1);
+		gridPane.add(btnAddtodo, 4, 1);
+		
 		title.getStyleClass().add("vbox");
+		gridPane.getStyleClass().add("gridpane");
 		
 		HBox todoList = new HBox(listView);
 		
-		
 		BorderPane root = new BorderPane();
 		root.setTop(title);
-		root.setCenter(hbox);
+		root.setCenter(gridPane);
 		root.setBottom(todoList);
 		
 		Scene scene = new Scene(root);

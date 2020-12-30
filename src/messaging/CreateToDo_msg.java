@@ -10,12 +10,14 @@ public class CreateToDo_msg extends Message {
 	private String description;
 	private LocalDate dueDate;
 	
-	public CreateToDo_msg(String title, String token, String priority, String description) {
+	
+	public CreateToDo_msg(String title, String token, Priority priority, String description, LocalDate dueDate) {
 		super(MessageType.CREATE_TODO);
 		this.token = token;
 		this.title = title;
-		this.priority = Priority.valueOf(priority);
+		this.priority = priority;
 		this.description = description;
+		this.dueDate = dueDate;
 	}
 
 	public CreateToDo_msg(String title, String token, String priority, String description, String dueDate) {
@@ -29,13 +31,10 @@ public class CreateToDo_msg extends Message {
 	
 	@Override
 	public String toString() {
-		if(dueDate != null) {
-			return type.toString() + '|' + token + '|' + title + '|' 
-					+ priority + '|' + description + '|' + dueDate; 
-		} else {
-			return type.toString() + '|' + token + '|' + title + '|' 
-					+ priority + '|' + description;
-		}
+		
+		return type.toString() + '|' + token + '|' + title + '|' 
+				+ priority + '|' + description + '|' + dueDate; 
+		
 	}
 	
 	public String getToken() {
