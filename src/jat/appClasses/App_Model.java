@@ -172,10 +172,8 @@ public class App_Model extends Model {
 	
 	public void deleteToDo(int id, String token, Client client) {
 		Result_msg msg = new Result_msg("false");;
-		if (!client.getToken().equals(token)) {
-			client.send(msg);
+		if (!validateToken(token, msg, client))
 			return;
-		}
 		
 		Iterator<Account> iterator = accounts.iterator();
 		while (iterator.hasNext()) {
@@ -190,8 +188,7 @@ public class App_Model extends Model {
 	
 	public void listToDos(String token, Client client) {
 		Result_msg msg = new Result_msg("false");
-		if (!client.getToken().equals(token)) {
-			client.send(msg);
+		if (!validateToken(token, msg, client)) {
 			return;
 		}
 		
@@ -213,6 +210,15 @@ public class App_Model extends Model {
 			msg = new Result_msg("false");
 		
 		client.send(msg);			
+	}
+	
+	public boolean validateToken(String token, Result_msg msg, Client client) {
+		boolean valid = true;
+		if (!client.getToken().equals(token)) {
+			client.send(msg);
+			valid = false;
+		}
+		return valid;
 	}
  
 }
