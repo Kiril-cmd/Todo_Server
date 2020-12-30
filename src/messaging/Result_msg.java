@@ -20,4 +20,12 @@ public class Result_msg extends Message {
 	public String toString() {
 		return type.toString() + '|' + result + '|' + data;
 	}
+	
+	public boolean getResult() {
+		return result;
+	}
+	
+	public String getData() {
+		return data;
+	}
 }

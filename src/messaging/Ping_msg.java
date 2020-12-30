@@ -19,5 +19,9 @@ public class Ping_msg extends Message {
 		else 
 			return type.toString();
 	}
+	
+	public String getToken() {
+		return token;
+	}
 }
 

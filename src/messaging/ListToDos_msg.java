@@ -11,5 +11,9 @@ public class ListToDos_msg extends Message {
 	public String toString() {
 		return type.toString() + '|' + token;
 	}
+	
+	public String getToken() {
+		return token;
+	}
 
 }
