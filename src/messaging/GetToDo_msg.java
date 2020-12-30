@@ -13,5 +13,13 @@ public class GetToDo_msg extends Message {
 	public String toString() {
 		return type.toString() + '|' + token + '|' + Integer.toString(id);
 	}
+	
+	public int getId() {
+		return id;
+	}
+	
+	public String getToken() {
+		return token;
+	}
 
 }

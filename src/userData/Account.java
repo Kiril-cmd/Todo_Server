@@ -1,6 +1,7 @@
 package userData;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Account {
 	private String userName;
@@ -28,5 +29,25 @@ public class Account {
 	
 	public void addToDo(ToDo newToDo) {
 		toDoList.add(newToDo);
+	}
+	
+	public ToDo getToDo(int id) {
+		ToDo toDo = null;
+		for (ToDo i : toDoList) {
+			if (i.getId() == id)
+				toDo = i;
+		}
+		return toDo;
+	}
+	
+	public boolean deleteToDo(int id) {
+		Iterator<ToDo> iterator = toDoList.iterator();		
+		while (iterator.hasNext()) {
+			if (iterator.next().getId() == id) {
+				iterator.remove();
+				return true;
+			}				
+		}
+		return false;
 	}
 }

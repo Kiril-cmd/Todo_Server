@@ -26,4 +26,8 @@ public class ToDo {
 		else
 			return id + '|' + title + '|' + priority + '|' + description;
 	}
+	
+	public int getId() {
+		return id;
+	}
 }

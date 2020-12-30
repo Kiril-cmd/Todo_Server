@@ -24,22 +24,24 @@ public class Client {
 				while(true) {
 					Message msg = Message.receiveMessage(socket);
 					if (msg instanceof CreateLogin_msg) {
-						CreateLogin_msg clgMsg = (CreateLogin_msg) msg;
-						model.createAccount(clgMsg.getUserName(), clgMsg.getPassword(), Client.this);
+						CreateLogin_msg specMsg = (CreateLogin_msg) msg;
+						model.createAccount(specMsg.getUserName(), specMsg.getPassword(), Client.this);
 					} else if (msg instanceof Login_msg) {
-						Login_msg lgMsg = (Login_msg) msg;
-						userName = lgMsg.getUserName();
-						model.login(userName, lgMsg.getPassword(), Client.this);
+						Login_msg specMsg = (Login_msg) msg;
+						userName = specMsg.getUserName();
+						model.login(userName, specMsg.getPassword(), Client.this);
 					} else if (msg instanceof ChangePassword_msg) {
-						ChangePassword_msg cpMsg = (ChangePassword_msg) msg;
-						model.changePassword(cpMsg.getPassword(), cpMsg.getToken(), Client.this);						
+						ChangePassword_msg specMsg = (ChangePassword_msg) msg;
+						model.changePassword(specMsg.getPassword(), specMsg.getToken(), Client.this);						
 					} else if (msg instanceof CreateToDo_msg) {
-						CreateToDo_msg ctdMsg = (CreateToDo_msg) msg;
-						model.createToDo(ctdMsg.getTitle(), ctdMsg.getPriority(), ctdMsg.getDescription(), ctdMsg.getDueDate(), Client.this);
+						CreateToDo_msg specMsg = (CreateToDo_msg) msg;
+						model.createToDo(specMsg.getTitle(), specMsg.getPriority(), specMsg.getDescription(), specMsg.getDueDate(), specMsg.getToken(), Client.this);
 					} else if (msg instanceof GetToDo_msg) {
-						
+						GetToDo_msg specMsg = (GetToDo_msg) msg;
+						model.getToDo(specMsg.getId(), specMsg.getToken(), Client.this);
 					} else if (msg instanceof DeleteToDo_msg) {
-						
+						DeleteToDo_msg specMsg = (DeleteToDo_msg) msg;
+						model.deleteToDo(specMsg.getId(), specMsg.getToken(), Client.this);
 					} else if (msg instanceof ListToDos_msg) {
 						
 					} else if (msg instanceof Ping_msg) {

@@ -13,4 +13,13 @@ public class DeleteToDo_msg extends Message {
 	public String toString() {
 		return type.toString() + '|' + token + '|' + Integer.toString(id);
 	}
+	
+	public String getToken() {
+		return token;
+	}
+	
+	public int getId() {
+		return id;
+	}
+	
 }

@@ -29,6 +29,7 @@ public class App_Model extends Model {
     ServiceLocator serviceLocator;
     ServerSocket listener;
     private volatile boolean stop = false;
+//    private Iterator<Account> acIterator = accounts.iterator();
     
     public App_Model() {
         serviceLocator = ServiceLocator.getServiceLocator();        
@@ -129,20 +130,66 @@ public class App_Model extends Model {
 		client.send(msg);
 	}
 	
-	public void createToDo(String title, Priority priority, String description, LocalDate dueDate, Client client) {
-		ToDo toDo = new ToDo(title, priority, description, dueDate);
-		Iterator<Account> iterator = accounts.iterator();
+	public void createToDo(String title, Priority priority, String description, 
+			LocalDate dueDate, String token, Client client) {	
 		Result_msg msg = null;
 		
+		if (client.getToken().equals(token)) {
+			ToDo toDo = new ToDo(title, priority, description, dueDate);
+			Iterator<Account> iterator = accounts.iterator();
+			
+			while (iterator.hasNext()) {
+				Account account = iterator.next();
+				if (account.getUserName().equals(client.getUserName())) {
+					iterator.next().addToDo(toDo);
+					msg = new Result_msg("true", Integer.toString(toDo.getId()));
+					break;
+				}
+			}
+		} else {
+			msg = new Result_msg("false");
+		}
+		client.send(msg);
+	}
+	
+	public void getToDo(int id, String token, Client client) {
+		Result_msg msg = null;
+		ToDo toDo = null;
+		if (client.getToken().equals(token)) {
+			Iterator<Account> iterator = accounts.iterator();
+			while (iterator.hasNext()) {
+				Account account = iterator.next();
+				if (account.getUserName().equals(client.getUserName()))
+					toDo = account.getToDo(id);			
+			}
+			if (toDo != null)
+				msg = new Result_msg("true", toDo.toString());
+		} else {
+			msg = new Result_msg("false");
+		}
+		client.send(msg);
+	}
+	
+	public void deleteToDo(int id, String token, Client client) {
+		Result_msg msg = new Result_msg("false");;
+		if (!client.getToken().equals(token)) {
+			client.send(msg);
+			return;
+		}
+		
+		Iterator<Account> iterator = accounts.iterator();
 		while (iterator.hasNext()) {
 			Account account = iterator.next();
 			if (account.getUserName().equals(client.getUserName())) {
-				iterator.next().addToDo(toDo);
-				msg = new Result_msg("true");
-				break;
+				iterator.next().deleteToDo(id);
+				msg = new Result_msg("true", Integer.toString(id));
 			}
 		}
-		client.send(msg);
+		client.send(msg);		
+	}
+	
+	public void listToDos() {
+		
 	}
  
 }
