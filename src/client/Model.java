@@ -5,23 +5,40 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.time.LocalDate;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import messaging.*;
+import userData.Priority;
+import userData.ToDo;
 
 public class Model {
-	/*
+	
 	protected SimpleStringProperty newestMessage = new SimpleStringProperty();
 	
 	private Logger logger = Logger.getLogger("");
 	private Socket socket;
-	private String name;
 	
-	public void connect(String ipAddress, int Port, String name) {
+	private final ObservableList<ToDo> elements = FXCollections.observableArrayList();
+	
+	protected String lastSentMessage = null;
+
+	public void addNewElement(String title, Priority priority, String description, LocalDate dueDate) {
+		elements.add(new ToDo(title, priority, description, dueDate));
+	}
+
+	// getters and setters
+	public ObservableList<ToDo> getElements() {
+		return elements;
+	}
+	
+	
+	public void connect(String ipAddress, int Port) {
 		logger.info("Connect");
-		this.name = name;
 		try {
 			socket = new Socket(ipAddress, Port);
 			
@@ -30,25 +47,16 @@ public class Model {
 				@Override
 				public void run() {
 					while (true) {
-						System.out.println("Please login");
-						Message msg = (Message) Message.receiveMessage(socket);
-						
-						// If the client is sending the _same_ message as before, we cannot simply
-						// set the property, because this would not be a change, and the change
-						// listener will not trigger. Therefore, we first erase the previous message.
-						// This is a change, but empty messages are ignored by the change-listener
-						newestMessage.set(""); // erase previous message
-						newestMessage.set(msg.getName() + ": " + msg.getContent());
+						Result_msg msg = (Result_msg) Message.receiveMessage(socket);
+						newestMessage.set(msg.toString());
+						System.out.println(msg);
 					}
 				}
 			};
 			Thread t = new Thread(r);
 			t.start();
 
-			// Send join message to the server
-			Message msg = new JoinMsg(name);
-			msg.sendMessage(socket);
-		} catch (Exception e) {
+			} catch (Exception e) {
 			logger.warning(e.toString());
 		}
 	}
@@ -63,19 +71,90 @@ public class Model {
 			}
 	}
 
-	public void sendMessage(String message) {
-		logger.info("Send message");
-		Message msg = new ChatMsg(name, message);
+//	public void sendMessage() {
+//		// Create thread to send messages
+//		Runnable r = new Runnable() {
+//			@Override
+//			public void run() {
+//			logger.info("Send message");
+//			
+//				while(true) {
+//					Message msg = null;
+//					
+//					String msgParts[] = command.split("\\|");
+//				}
+//			}
+//		};
+//		Thread t = new Thread(r);
+//		t.start();
+//	}
+	
+	// Commands
+	public void CreateLogin(String email, String password) {
+		CreateLogin_msg msg = new CreateLogin_msg(email, password);
 		msg.sendMessage(socket);
-	}
-
-	public String receiveMessage() {
-		logger.info("Receive message");
-		return newestMessage.get();
-	}
-		
+		lastSentMessage = "CreateLogin";
 	}
 	
-	*/
+	public void Login(String email, String password) {
+		Login_msg msg = new Login_msg(email, password);
+		msg.sendMessage(socket);
+		lastSentMessage = "Login";
+	}
+	
+	public void ChangePassword(String email, String password) {
+		ChangePassword_msg msg = new ChangePassword_msg(email, password);
+		msg.sendMessage(socket);
+		lastSentMessage = "ChangePassword";
+	}
+	
+	public void Logout() {
+		Logout_msg msg = new Logout_msg();
+		msg.sendMessage(socket);
+		lastSentMessage = "Logout";
+	}
+	
+	public void CreateTodo(String title, String token, String priority, String description) {
+		CreateToDo_msg msg = new CreateToDo_msg (title, token, priority, description);
+		msg.sendMessage(socket);
+		lastSentMessage = "CreateTodo";
+	}
+	
+	public void CreateTodo(String title, String token, String priority, String description, String dueDate) {
+		CreateToDo_msg msg = new CreateToDo_msg (title, token, priority, description, dueDate);
+		msg.sendMessage(socket);
+		lastSentMessage = "CreateTodo";
+	}
+	
+	public void GetTodo(String token, String id) {
+		GetToDo_msg msg = new GetToDo_msg (token, id);
+		msg.sendMessage(socket);
+		lastSentMessage = "GetTodo";
+	}
+	
+	public void DeleteTodo(String token, String id) {
+		DeleteToDo_msg msg = new DeleteToDo_msg(token, id);
+		msg.sendMessage(socket);
+		lastSentMessage = "ListTodos";
+	}
+	
+	public void ListTodos(String token) {
+		ListToDos_msg msg = new ListToDos_msg(token);
+		msg.sendMessage(socket);
+		lastSentMessage = "ListTodos";
+	}
+	
+	public void Ping(String token) {
+		Ping_msg msg = new Ping_msg(token);
+		msg.sendMessage(socket);
+		lastSentMessage = "Ping";
+	}
+	
+	public void Result(String result, String data) {
+		Result_msg msg = new Result_msg(result, data);
+		msg.sendMessage(socket);
+		lastSentMessage = "Result";
+	}
 	
 }
+	
