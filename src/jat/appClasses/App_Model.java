@@ -109,22 +109,21 @@ public class App_Model extends Model {
 		}
 	}
 	
-	public void changePassword(String newPassword, String token, Client client) {
-		Result_msg msg = null;		
-		if (client.getToken().equals(token)) {
-			Iterator<Account> iterator = accounts.iterator();
-			while (iterator.hasNext()) {
-				Account account = iterator.next();
+	public void changePassword(String newPassword, String token, Client client) {	
+		if (!client.validateToken(token)) {
+			answerInvalidRequest(client);
+			return;
+		}
+				
+		synchronized (accounts) {
+			for (Account account : accounts) {
 				if (account.getUserName().equals(client.getUserName())) {
-					iterator.next().setPassword(newPassword);
-					msg = new Result_msg("true");
+					account.setPassword(newPassword);
+					answerValidRequest(client);
 					break;
 				}
 			}
-		} else {
-			msg = new Result_msg("false");
 		}
-		client.send(msg);
 	}
 	
 	public void Logout(Client client) {
@@ -179,24 +178,24 @@ public class App_Model extends Model {
 	}
 	
 	public void deleteToDo(int id, String token, Client client) {
-		Result_msg msg = new Result_msg("false");;
-		if (!validateToken(token, msg, client))
+		if (!client.validateToken(token)) {
+			answerInvalidRequest(client);
 			return;
+		}
 		
 		Iterator<Account> iterator = accounts.iterator();
 		while (iterator.hasNext()) {
 			Account account = iterator.next();
 			if (account.getUserName().equals(client.getUserName())) {
 				iterator.next().deleteToDo(id);
-				msg = new Result_msg("true", Integer.toString(id));
+				answerValidRequest(client, Integer.toString(id));
 			}
 		}
-		client.send(msg);		
 	}
 	
 	public void listToDos(String token, Client client) {
-		Result_msg msg = new Result_msg("false");
-		if (!validateToken(token, msg, client)) {
+		if (!client.validateToken(token)) {
+			answerInvalidRequest(client);
 			return;
 		}
 		
@@ -204,9 +203,8 @@ public class App_Model extends Model {
 		while (iterator.hasNext()) {
 			Account account = iterator.next();
 			if (account.getUserName().equals(client.getUserName()))
-				msg = new Result_msg("true", account.toDoListToString());
+				answerValidRequest(client, account.toDoListToString());
 		}
-		client.send(msg);
 	}
 	
 	public void getPing(String token, Client client) {
@@ -218,15 +216,6 @@ public class App_Model extends Model {
 			msg = new Result_msg("false");
 		
 		client.send(msg);			
-	}
-	
-	public boolean validateToken(String token, Result_msg msg, Client client) {
-		boolean valid = true;
-		if (!client.getToken().equals(token)) {
-			client.send(msg);
-			valid = false;
-		}
-		return valid;
 	}
 	
 	// answers client if only the result must be send

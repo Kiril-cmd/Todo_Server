@@ -95,6 +95,14 @@ public class Client {
 			this.token = null;
 	}
 	
+	public boolean validateToken(String receivedToken) {
+		boolean valid = false;
+		if (this.getToken() != null || this.getToken().equals(receivedToken)) {
+			valid = true;
+		}
+		return valid;
+	}
+	
 	public String getUserName() {
 		return userName;
 	}
