@@ -10,7 +10,8 @@ public enum MessageType {
 	DELETE_TODO,
 	LIST_TODOS,
 	PING,
-	RESULT;
+	RESULT,
+	INVALID;
 	
 }
 

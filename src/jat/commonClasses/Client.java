@@ -50,6 +50,8 @@ public class Client {
 						model.getPing(specMsg.getToken(), Client.this);
 					} else if (msg instanceof Logout_msg) {
 						model.Logout(Client.this);
+					} else if (msg instanceof Invalid_msg) {
+						model.answerInvalidRequest(Client.this);
 					}
 				}
 			}
