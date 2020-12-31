@@ -93,22 +93,20 @@ public class App_Model extends Model {
     	answerValidRequest(client);
     }
 
-	public void login(String username, String password, Client client) {
+	public synchronized void login(String username, String password, Client client) {
 		boolean exists = false;
-		Result_msg msg = null;
 		Iterator<Account> iterator = accounts.iterator();
 		
 		while (iterator.hasNext() && exists == false) {
 			Account account = iterator.next();
 			if (account.getUserName().equals(username) && account.getPassword().equals(password)) {
 				client.setToken();
-				msg = new Result_msg("true", client.getToken());
+				answerValidRequest(client, client.getToken());
 				exists = true;
 			} else if (!iterator.hasNext() && !exists) {
-				msg = new Result_msg("false");
+				answerInvalidRequest(client);
 			}
 		}
-		client.send(msg);	
 	}
 	
 	public void changePassword(String newPassword, String token, Client client) {
