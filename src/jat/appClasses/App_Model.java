@@ -43,12 +43,16 @@ public class App_Model extends Model {
     		Runnable runnable = new Runnable() {
 				@Override
 				public void run() {
-					try {
-						Socket socket = listener.accept();
-						Client client = new Client(App_Model.this, socket);
-						clients.add(client);	
-					} catch (IOException e) {
-						serviceLocator.getLogger().info(e.toString());
+					while (!stop) {
+						try {
+							Socket socket = listener.accept();
+							Client client = new Client(App_Model.this, socket);
+							synchronized(clients) {
+								clients.add(client);	
+							}
+						} catch (IOException e) {
+							serviceLocator.getLogger().info(e.toString());
+						}
 					}					
 				}   			
     		};
@@ -74,13 +78,19 @@ public class App_Model extends Model {
     	}
     }
     
-    public Account createAccount(String username, String password, Client client) {
+    public synchronized void createAccount(String username, String password, Client client) {
+    	// check if account with the requested userName already exists
+    	for (Account account : accounts) {
+    		if (account.getUserName().equals(username)) {
+    			answerInvalidRequest(client);
+    			return;
+    		}
+    	}
+    	
+    	// creates new account with the data given by the user
     	Account account = new Account(username, password);
     	accounts.add(account);
-    	Result_msg msg = new Result_msg("true");
-    	client.send(msg);
-    	
-    	return account;
+    	answerValidRequest(client);
     }
 
 	public void login(String username, String password, Client client) {
@@ -204,7 +214,7 @@ public class App_Model extends Model {
 	public void getPing(String token, Client client) {
 		Result_msg msg;
 		
-		if (client.getToken().equals(token) || token == null)
+		if (token == null || client.getToken().equals(token))
 			msg = new Result_msg("true");
 		else
 			msg = new Result_msg("false");
@@ -219,6 +229,24 @@ public class App_Model extends Model {
 			valid = false;
 		}
 		return valid;
+	}
+	
+	// answers client if only the result must be send
+	public void answerValidRequest(Client client) {
+		Result_msg msg = new Result_msg("true");
+		client.send(msg);
+	}
+	
+	// answers client if the result and data are required
+	public void answerValidRequest(Client client, String data) {
+		Result_msg msg = new Result_msg("true", data);
+		client.send(msg);
+	}
+	
+	// answers the client if the request is invalid
+	public void answerInvalidRequest(Client client) {
+		Result_msg msg = new Result_msg("false");
+		client.send(msg);
 	}
  
 }
