@@ -28,8 +28,7 @@ public class Client {
 						model.createAccount(specMsg.getUserName(), specMsg.getPassword(), Client.this);
 					} else if (msg instanceof Login_msg) {
 						Login_msg specMsg = (Login_msg) msg;
-						userName = specMsg.getUserName();
-						model.login(userName, specMsg.getPassword(), Client.this);
+						model.login(specMsg.getUserName(), specMsg.getPassword(), Client.this);
 					} else if (msg instanceof ChangePassword_msg) {
 						ChangePassword_msg specMsg = (ChangePassword_msg) msg;
 						model.changePassword(specMsg.getPassword(), specMsg.getToken(), Client.this);						
@@ -108,6 +107,14 @@ public class Client {
 	
 	public String getUserName() {
 		return userName;
+	}
+	
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
+	public void setUserName() {
+		this.userName = null;
 	}
 
 }

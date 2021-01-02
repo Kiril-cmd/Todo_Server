@@ -41,24 +41,28 @@ public class Account {
 	}
 	
 	public boolean deleteToDo(int id) {
+		boolean removed = false;
 		Iterator<ToDo> iterator = toDoList.iterator();		
-		while (iterator.hasNext()) {
+		while (iterator.hasNext() && !removed) {
 			if (iterator.next().getId() == id) {
 				iterator.remove();
-				return true;
+				removed = true;
 			}				
 		}
-		return false;
+		return removed;
 	}
 	
 	public String toDoListToString() {
 		String toDos = null;
 		Iterator<ToDo> iterator = toDoList.iterator();
 		while (iterator.hasNext()) {
-			if (iterator.hasNext() != false)
-				toDos += iterator.next().getId() + '|';
-			else
-				toDos += iterator.next().getId();
+			ToDo todo = iterator.next();
+			if (toDos == null)
+				toDos = Integer.toString(todo.getId()) + '|';
+			else if (toDos != null && iterator.hasNext())
+				toDos += Integer.toString(todo.getId()) + '|';
+			else if (!iterator.hasNext())
+				toDos += todo.getId();
 		}
 		return toDos;
 	}
