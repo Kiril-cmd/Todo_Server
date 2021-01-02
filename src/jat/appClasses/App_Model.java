@@ -137,42 +137,46 @@ public class App_Model extends Model {
 	
 	public void createToDo(String title, Priority priority, String description, 
 			LocalDate dueDate, String token, Client client) {	
-		Result_msg msg = null;
 		
-		if (client.getToken().equals(token)) {
-			ToDo toDo = new ToDo(title, priority, description, dueDate);
-			Iterator<Account> iterator = accounts.iterator();
-			
-			while (iterator.hasNext()) {
-				Account account = iterator.next();
+		if (!client.validateToken(token)) {
+			answerInvalidRequest(client);
+			return;
+		}
+		
+		ToDo toDo = new ToDo(title, priority, description);
+		synchronized(accounts) {
+			for (Account account : accounts) {
 				if (account.getUserName().equals(client.getUserName())) {
-					iterator.next().addToDo(toDo);
-					msg = new Result_msg("true", Integer.toString(toDo.getId()));
+					account.addToDo(toDo);
+					answerValidRequest(client, Integer.toString(toDo.getId()));
 					break;
 				}
 			}
-		} else {
-			msg = new Result_msg("false");
 		}
-		client.send(msg);
 	}
 	
 	public void getToDo(int id, String token, Client client) {
-		Result_msg msg = null;
-		ToDo toDo = null;
-		if (client.getToken().equals(token)) {
-			Iterator<Account> iterator = accounts.iterator();
-			while (iterator.hasNext()) {
-				Account account = iterator.next();
-				if (account.getUserName().equals(client.getUserName()))
-					toDo = account.getToDo(id);			
-			}
-			if (toDo != null)
-				msg = new Result_msg("true", toDo.toString());
-		} else {
-			msg = new Result_msg("false");
+		if (!client.validateToken(token)) {
+			answerInvalidRequest(client);
+			return;
 		}
-		client.send(msg);
+		
+		boolean accountFound = false;		
+		ToDo toDo = null;		
+		Iterator<Account> iterator = accounts.iterator();
+		
+		while (iterator.hasNext() && !accountFound) {
+			Account account = iterator.next();
+			if (account.getUserName().equals(client.getUserName())) {
+				accountFound = true;
+				toDo = account.getToDo(id);
+			}
+		}
+		
+		if (toDo != null)
+			answerValidRequest(client, toDo.toString());
+		else
+			answerInvalidRequest(client);
 	}
 	
 	public void deleteToDo(int id, String token, Client client) {
@@ -181,14 +185,15 @@ public class App_Model extends Model {
 			return;
 		}
 		
-		Iterator<Account> iterator = accounts.iterator();
-		while (iterator.hasNext()) {
-			Account account = iterator.next();
-			if (account.getUserName().equals(client.getUserName())) {
-				iterator.next().deleteToDo(id);
-				answerValidRequest(client, Integer.toString(id));
-			}
-		}
+		boolean deleted = false;
+		for (Account account : accounts) {
+			if (account.getUserName().equals(client.getUserName()))
+				deleted = account.deleteToDo(id);
+		}		
+		if (deleted)
+			answerValidRequest(client, Integer.toString(id));
+		else
+			answerInvalidRequest(client);
 	}
 	
 	public void listToDos(String token, Client client) {
@@ -197,8 +202,9 @@ public class App_Model extends Model {
 			return;
 		}
 		
+		boolean accountFound = false;
 		Iterator<Account> iterator = accounts.iterator();
-		while (iterator.hasNext()) {
+		while (iterator.hasNext() && !accountFound) {
 			Account account = iterator.next();
 			if (account.getUserName().equals(client.getUserName()))
 				answerValidRequest(client, account.toDoListToString());
@@ -206,14 +212,10 @@ public class App_Model extends Model {
 	}
 	
 	public void getPing(String token, Client client) {
-		Result_msg msg;
-		
 		if (token == null || client.getToken().equals(token))
-			msg = new Result_msg("true");
+			answerValidRequest(client);
 		else
-			msg = new Result_msg("false");
-		
-		client.send(msg);			
+			answerInvalidRequest(client);		
 	}
 	
 	// answers client if only the result must be send

@@ -10,7 +10,7 @@ public class CreateToDo_msg extends Message {
 	private String description;
 	private LocalDate dueDate;
 	
-	public CreateToDo_msg(String title, String token, String priority, String description) {
+	public CreateToDo_msg(String token, String title, String priority, String description) {
 		super(MessageType.CREATE_TODO);
 		this.token = token;
 		this.title = title;
@@ -18,7 +18,7 @@ public class CreateToDo_msg extends Message {
 		this.description = description;
 	}
 
-	public CreateToDo_msg(String title, String token, String priority, String description, String dueDate) {
+	public CreateToDo_msg(String token, String title, String priority, String description, String dueDate) {
 		super(MessageType.CREATE_TODO);
 		this.token = token;
 		this.title = title;
