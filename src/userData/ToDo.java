@@ -11,12 +11,19 @@ public class ToDo {
 	private String description;
 	private LocalDate dueDate = null;
 		
-	public ToDo (String title, Priority priority, String description, LocalDate dueDate) {
+	public ToDo(String title, Priority priority, String description, LocalDate dueDate) {
 		this.id = ++counter;
 		this.title = title;
 		this.priority = priority;
 		this.description = description;
 		this.dueDate = dueDate;
+	}
+	
+	public ToDo(String title, Priority priority, String description) {
+		this.id = ++counter;
+		this.title = title;
+		this.priority = priority;
+		this.description = description;
 	}
 	
 	@Override
