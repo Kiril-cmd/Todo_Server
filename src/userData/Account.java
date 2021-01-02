@@ -56,10 +56,13 @@ public class Account {
 		String toDos = null;
 		Iterator<ToDo> iterator = toDoList.iterator();
 		while (iterator.hasNext()) {
-			if (iterator.hasNext() != false)
-				toDos += iterator.next().getId() + '|';
-			else
-				toDos += iterator.next().getId();
+			ToDo todo = iterator.next();
+			if (toDos == null)
+				toDos = Integer.toString(todo.getId()) + '|';
+			else if (toDos != null && iterator.hasNext())
+				toDos += Integer.toString(todo.getId()) + '|';
+			else if (!iterator.hasNext())
+				toDos += todo.getId();
 		}
 		return toDos;
 	}

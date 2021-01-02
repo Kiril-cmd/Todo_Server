@@ -48,10 +48,15 @@ public abstract class Message {
 					else
 						msg = new Ping_msg();
 				} else if (msgParts[0].equals(MessageType.RESULT.toString())) {
-					if (msgParts.length > 2)
-						msg = new Result_msg(msgParts[1], msgParts[2]);
-					else
+					if (msgParts.length > 2) {
+						String data = "";
+						for (int i = 1; i < msgParts.length; i++) {
+							data += msgParts[i];
+						}
+						msg = new Result_msg(msgParts[1], data);
+					} else {
 						msg = new Result_msg(msgParts[1]);
+					}
 				} else {
 					msg = new Invalid_msg();
 				}

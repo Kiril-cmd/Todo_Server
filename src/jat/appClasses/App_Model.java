@@ -93,20 +93,21 @@ public class App_Model extends Model {
     	answerValidRequest(client);
     }
 
-	public synchronized void login(String username, String password, Client client) {
+	public synchronized void login(String userName, String password, Client client) {
 		boolean exists = false;
 		Iterator<Account> iterator = accounts.iterator();
 		
 		while (iterator.hasNext() && exists == false) {
 			Account account = iterator.next();
-			if (account.getUserName().equals(username) && account.getPassword().equals(password)) {
+			if (account.getUserName().equals(userName) && account.getPassword().equals(password)) {
 				client.setToken();
+				client.setUserName(userName);
 				answerValidRequest(client, client.getToken());
 				exists = true;
-			} else if (!iterator.hasNext() && !exists) {
-				answerInvalidRequest(client);
 			}
 		}
+		if (!exists)
+			answerInvalidRequest(client);
 	}
 	
 	public void changePassword(String newPassword, String token, Client client) {	
@@ -128,8 +129,9 @@ public class App_Model extends Model {
 	
 	public void Logout(Client client) {
 		if (client.getToken() != null) {
-			answerValidRequest(client);
 			client.setToken();
+			client.setUserName();
+			answerValidRequest(client);
 		} else {
 			answerInvalidRequest(client);
 		}
@@ -206,18 +208,27 @@ public class App_Model extends Model {
 		
 		boolean accountFound = false;
 		Iterator<Account> iterator = accounts.iterator();
+		String toDos = null;
+		
 		while (iterator.hasNext() && !accountFound) {
 			Account account = iterator.next();
-			if (account.getUserName().equals(client.getUserName()))
-				answerValidRequest(client, account.toDoListToString());
+			if (account.getUserName().equals(client.getUserName())) {
+				accountFound = true;
+				toDos = account.toDoListToString();
+			}
 		}
+		
+		if (toDos != null)
+			answerValidRequest(client, toDos);
+		else
+			answerInvalidRequest(client);
 	}
 	
 	public void getPing(String token, Client client) {
-		if (token == null || client.getToken().equals(token))
+		if (token == null || client.validateToken(token))
 			answerValidRequest(client);
 		else
-			answerInvalidRequest(client);		
+			answerInvalidRequest(client);
 	}
 	
 	// answers client if only the result must be send
