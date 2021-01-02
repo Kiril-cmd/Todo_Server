@@ -3,8 +3,7 @@ package messaging;
 public class CreateLogin_msg extends Message {
 	private String userName;
 	private String password;
-	
-		
+			
 	public CreateLogin_msg(String userName, String password) {
 		super(MessageType.CREATE_LOGIN);
 		this.userName = userName;

@@ -18,7 +18,10 @@ public class Result_msg extends Message {
 
 	@Override
 	public String toString() {
-		return type.toString() + '|' + result + '|' + data;
+		if (data != null)
+			return type.toString() + '|' + result + '|' + data;
+		else
+			return type.toString() + '|' + result;
 	}
 	
 	public boolean getResult() {

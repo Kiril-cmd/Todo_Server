@@ -50,6 +50,8 @@ public class Client {
 						model.getPing(specMsg.getToken(), Client.this);
 					} else if (msg instanceof Logout_msg) {
 						model.Logout(Client.this);
+					} else if (msg instanceof Invalid_msg) {
+						model.answerInvalidRequest(Client.this);
 					}
 				}
 			}
@@ -91,6 +93,17 @@ public class Client {
 			this.token = generateToken();
 		else
 			this.token = null;
+	}
+	
+	public boolean validateToken(String receivedToken) {
+		boolean valid = false;
+		if (this.token == null)
+			return valid;
+		
+		if (this.token.equals(receivedToken))
+			valid = true;
+		
+		return valid;
 	}
 	
 	public String getUserName() {

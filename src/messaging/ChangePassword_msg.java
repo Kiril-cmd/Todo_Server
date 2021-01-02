@@ -4,15 +4,15 @@ public class ChangePassword_msg extends Message{
 	private String password;
 	private String token;
 	
-	public ChangePassword_msg(String password, String token) {
+	public ChangePassword_msg(String token, String password) {
 		super(MessageType.CHANGE_PASSWORD);
-		this.password = password;
 		this.token = token;
+		this.password = password;
 	}
 	
 	@Override
 	public String toString() {
-		return type.toString() + '|' + password + '|' + token;
+		return type.toString() + '|' + token + '|' + password;
 	}
 	
 	public String getPassword() {
