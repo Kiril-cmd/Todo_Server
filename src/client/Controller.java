@@ -37,41 +37,46 @@ public class Controller {
 		
 		view.btnAddtodo.setOnAction(event -> {
 			String title = view.txtTitle.getText();
-			Priority priority = view.cmbPriority.getValue();
+			String priority = view.cmbPriority.getValue().toString();
 			String description = view.txtDescription.getText();
-			LocalDate dueDate = view.dueDate.getValue();
-			model.CreateTodo(title, ip, priority, description, dueDate);
+			String dueDate = null;
+			//String dueDate = view.dueDate.getValue().toString();
+			model.CreateTodo(title, model.token, priority, description, dueDate);
 		});
 		
 		model.newestMessage.addListener((observable, oldValue, newValue) -> {
 			
 			newestMessage = newValue;
-			String result = "RESULT|true";
+			
 			
 			if (model.lastSentMessage.equals("CreateLogin")) {
-				if(newestMessage.contains(result)) {
+				if(model.result) {
 					System.out.println("Account successfully created, please login");
 				} else {
 					System.out.println("Wrong data");
 				}
 			} else if (model.lastSentMessage.equals("Login")) {
-				if(newestMessage.contains(result)) {
-					
+				if(model.result) {
+					model.token = model.data;
 					Platform.runLater(() -> {
 						view.setTodoView();
 				    });
-				}				
+				} else {
+					Platform.runLater(() -> {
+						view.alertAccount.showAndWait();
+					});
+				}
 			} else if (model.lastSentMessage.equals("ChangePassword")) {
 				
 			} else if (model.lastSentMessage.equals("Logout")) {
 				
 			} else if (model.lastSentMessage.equals("CreateTodo")) {
-				if(newestMessage.contains("RESULT|true")) {
+				if(model.result) {
 					String title = view.txtTitle.getText();
-					String priority = view.cmbPriority.getAccessibleText();
+					Priority priority = view.cmbPriority.getValue();
 					String description = view.txtDescription.getText();
-					String dueDate = view.dueDate.getPromptText();
-					//model.addNewElement(title, priority, description,dueDate);
+					LocalDate dueDate = view.dueDate.getValue();
+					model.addNewTodo(title, priority, description, dueDate);
 				} else {
 					System.out.println("Could not create a new Todo for some reason");
 				}

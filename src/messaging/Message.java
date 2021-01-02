@@ -46,7 +46,7 @@ public abstract class Message {
 			} else if (msgParts[0].equals(MessageType.RESULT.toString())) {
 				msg = new Result_msg(msgParts[1], msgParts[2]);
 			}
-		
+
 		} catch(IOException e) {
 			logger.warning(e.toString());
 		}

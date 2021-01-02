@@ -1,6 +1,10 @@
 package client;
 
+import userData.ToDo;
+
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -26,6 +30,7 @@ public class View {
 	TextField txtPassword = new TextField();
 	Button btnLogin = new Button("Login");
 	Button btnRegister = new Button("Register new account");
+	Alert alertAccount = new Alert (AlertType.ERROR);
 	
 	// Add Todos
 	Label lblMytodos = new Label ("My Todos");
@@ -42,14 +47,16 @@ public class View {
 	// Root
 	BorderPane root = new BorderPane();
      
-
-	
 	// Todo list
-	protected ListView<Integer> listView = new ListView<>();
+	protected ListView<ToDo> listView;
 	
 	public View(Stage stage, Model model) {
 		this.stage = stage;
 		this.model = model;
+		
+		//Alerts
+		alertAccount.setTitle("Wrong account credentials");
+		alertAccount.setHeaderText("The username or the password is wrong");
 		
 		
 		root = loginView();
@@ -94,6 +101,9 @@ public class View {
 		
 		title.getStyleClass().add("vbox");
 		gridPane.getStyleClass().add("gridpane");
+		
+		// Add all todos to the list
+		listView = new ListView<>(model.todos);
 		
 		HBox todoList = new HBox(listView);
 		

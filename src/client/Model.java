@@ -24,17 +24,20 @@ public class Model {
 	private Logger logger = Logger.getLogger("");
 	private Socket socket;
 	
-	private final ObservableList<ToDo> elements = FXCollections.observableArrayList();
+	protected final ObservableList<ToDo> todos = FXCollections.observableArrayList();
 	
 	protected String lastSentMessage = null;
-
-	public void addNewElement(String title, Priority priority, String description, LocalDate dueDate) {
-		elements.add(new ToDo(title, priority, description, dueDate));
+	protected boolean result;
+	protected String data;
+	protected String token;
+	
+	public void addNewTodo(String title, Priority priority, String description, LocalDate dueDate) {
+		todos.add(new ToDo(title, priority, description, dueDate));
 	}
 
 	// getters and setters
-	public ObservableList<ToDo> getElements() {
-		return elements;
+	public ObservableList<ToDo> getTodos() {
+		return todos;
 	}
 	
 	
@@ -49,8 +52,10 @@ public class Model {
 				public void run() {
 					while (true) {
 						Result_msg msg = (Result_msg) Message.receiveMessage(socket);
+						result = msg.getResult();
+						data = msg.getData();
+						// Do it always at the end
 						newestMessage.set(msg.toString());
-						
 						System.out.println(msg);
 					}
 				}
@@ -93,63 +98,72 @@ public class Model {
 	
 	// Commands
 	public void CreateLogin(String email, String password) {
+		lastSentMessage = "CreateLogin";
 		CreateLogin_msg msg = new CreateLogin_msg(email, password);
 		msg.sendMessage(socket);
-		lastSentMessage = "CreateLogin";
 	}
 	
 	public void Login(String email, String password) {
+		lastSentMessage = "Login";
 		Login_msg msg = new Login_msg(email, password);
 		msg.sendMessage(socket);
-		lastSentMessage = "Login";
 	}
 	
 	public void ChangePassword(String email, String password) {
+		lastSentMessage = "ChangePassword";
 		ChangePassword_msg msg = new ChangePassword_msg(email, password);
 		msg.sendMessage(socket);
-		lastSentMessage = "ChangePassword";
 	}
 	
 	public void Logout() {
+		lastSentMessage = "Logout";
 		Logout_msg msg = new Logout_msg();
 		msg.sendMessage(socket);
-		lastSentMessage = "Logout";
 	}
 	
-	public void CreateTodo(String title, String token, Priority priority, String description, LocalDate dueDate) {
-		CreateToDo_msg msg = new CreateToDo_msg (title, token, priority, description, dueDate);
-		msg.sendMessage(socket);
+	public void CreateTodo(String title, String token, String priority, String description) {
 		lastSentMessage = "CreateTodo";
+		CreateToDo_msg msg = new CreateToDo_msg (title, token, priority, description);
+		msg.sendMessage(socket);
+	}
+	
+	public void CreateTodo(String title, String token, String priority, String description, String dueDate) {
+		lastSentMessage = "CreateTodo";
+		CreateToDo_msg msg;
+		if(dueDate != null) msg = new CreateToDo_msg (title, token, priority, description, dueDate);
+		else msg = new CreateToDo_msg (title, token, priority, description);
+		msg.sendMessage(socket);
 	}
 	
 	public void GetTodo(String token, String id) {
+		lastSentMessage = "GetTodo";
 		GetToDo_msg msg = new GetToDo_msg (token, id);
 		msg.sendMessage(socket);
-		lastSentMessage = "GetTodo";
+		
 	}
 	
 	public void DeleteTodo(String token, String id) {
+		lastSentMessage = "ListTodos";
 		DeleteToDo_msg msg = new DeleteToDo_msg(token, id);
 		msg.sendMessage(socket);
-		lastSentMessage = "ListTodos";
 	}
 	
 	public void ListTodos(String token) {
+		lastSentMessage = "ListTodos";
 		ListToDos_msg msg = new ListToDos_msg(token);
 		msg.sendMessage(socket);
-		lastSentMessage = "ListTodos";
 	}
 	
 	public void Ping(String token) {
+		lastSentMessage = "Ping";
 		Ping_msg msg = new Ping_msg(token);
 		msg.sendMessage(socket);
-		lastSentMessage = "Ping";
 	}
 	
 	public void Result(String result, String data) {
+		lastSentMessage = "Result";
 		Result_msg msg = new Result_msg(result, data);
 		msg.sendMessage(socket);
-		lastSentMessage = "Result";
 	}
 	
 }
