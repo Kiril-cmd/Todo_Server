@@ -48,7 +48,6 @@ public class Controller {
 			
 			newestMessage = newValue;
 			
-			
 			if (model.lastSentMessage.equals("CreateLogin")) {
 				if(model.result) {
 					System.out.println("Account successfully created, please login");
