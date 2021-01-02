@@ -10,6 +10,7 @@ public class Controller {
 	private View view;
 	
 	String newestMessage;
+	String id;
 	
 	public Controller(Model model, View view) {
 		this.model = model;
@@ -17,6 +18,8 @@ public class Controller {
 		
 		String ip = "127.0.0.1";
 		int port = 50002;
+		
+		
 		
 		model.connect(ip, port);
 		
@@ -32,7 +35,6 @@ public class Controller {
 			String email = view.txtEmail.getText();
 			String password = view.txtPassword.getText();
 			model.Login(email, password);
-			
 		});
 		
 		view.btnAddtodo.setOnAction(event -> {
@@ -41,7 +43,12 @@ public class Controller {
 			String description = view.txtDescription.getText();
 			String dueDate = null;
 			//String dueDate = view.dueDate.getValue().toString();
-			model.CreateTodo(title, model.token, priority, description, dueDate);
+			model.CreateTodo(model.token, title, priority, description, dueDate);
+
+		});
+		
+		view.btnUpdate.setOnAction(event -> {
+			model.GetTodo(model.token, id);
 		});
 		
 		model.newestMessage.addListener((observable, oldValue, newValue) -> {
@@ -71,16 +78,27 @@ public class Controller {
 				
 			} else if (model.lastSentMessage.equals("CreateTodo")) {
 				if(model.result) {
-					String title = view.txtTitle.getText();
-					Priority priority = view.cmbPriority.getValue();
-					String description = view.txtDescription.getText();
-					LocalDate dueDate = view.dueDate.getValue();
-					model.addNewTodo(title, priority, description, dueDate);
+					System.out.println("Todo was successfully created");
+					id = model.data;
+					
+					
+					
 				} else {
 					System.out.println("Could not create a new Todo for some reason");
 				}
 			} else if (model.lastSentMessage.equals("GetTodo")) {
+				String msgParts[] = model.data.split("\\|");
+				int id = Integer.parseInt(msgParts[0]);
+				String title = msgParts[1];
+				Priority priority = Priority.valueOf(msgParts[2]);
+				String description = msgParts[3];
+				LocalDate dueDate = LocalDate.parse(msgParts[4]);
 				
+				if(model.result) {
+					model.addNewTodo(id, title, priority, description, dueDate);
+				} else {
+					System.out.println("The server didn't send any todo");
+				}
 			} else if (model.lastSentMessage.equals("DeleteTodo")) {
 				
 			} else if (model.lastSentMessage.equals("ListTodos")) {

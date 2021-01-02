@@ -43,6 +43,7 @@ public class View {
 	Label lblDuedate = new Label("Due date");
 	DatePicker dueDate = new DatePicker();
 	Button btnAddtodo = new Button("Add new todo");
+	Button btnUpdate = new Button("Update");
 	
 	// Root
 	BorderPane root = new BorderPane();
@@ -98,6 +99,7 @@ public class View {
 		gridPane.add(txtDescription, 2, 1);
 		gridPane.add(dueDate, 3, 1);
 		gridPane.add(btnAddtodo, 4, 1);
+		gridPane.add(btnUpdate, 5, 1);
 		
 		title.getStyleClass().add("vbox");
 		gridPane.getStyleClass().add("gridpane");

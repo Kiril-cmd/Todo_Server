@@ -30,8 +30,9 @@ public class Model {
 	protected boolean result;
 	protected String data;
 	protected String token;
+	protected int id;
 	
-	public void addNewTodo(String title, Priority priority, String description, LocalDate dueDate) {
+	public void addNewTodo(int id, String title, Priority priority, String description, LocalDate dueDate) {
 		todos.add(new ToDo(title, priority, description, dueDate));
 	}
 
@@ -52,11 +53,13 @@ public class Model {
 				public void run() {
 					while (true) {
 						Result_msg msg = (Result_msg) Message.receiveMessage(socket);
+						
 						result = msg.getResult();
 						data = msg.getData();
+						
+						System.out.println(msg);
 						// Do it always at the end
 						newestMessage.set(msg.toString());
-						System.out.println(msg);
 					}
 				}
 			};
@@ -121,17 +124,11 @@ public class Model {
 		msg.sendMessage(socket);
 	}
 	
-	public void CreateTodo(String title, String token, String priority, String description) {
-		lastSentMessage = "CreateTodo";
-		CreateToDo_msg msg = new CreateToDo_msg (title, token, priority, description);
-		msg.sendMessage(socket);
-	}
-	
-	public void CreateTodo(String title, String token, String priority, String description, String dueDate) {
+	public void CreateTodo(String token, String title, String priority, String description, String dueDate) {
 		lastSentMessage = "CreateTodo";
 		CreateToDo_msg msg;
-		if(dueDate != null) msg = new CreateToDo_msg (title, token, priority, description, dueDate);
-		else msg = new CreateToDo_msg (title, token, priority, description);
+		if(dueDate != null)	msg = new CreateToDo_msg (token, title, priority, description, dueDate);
+		else msg = new CreateToDo_msg(token, title, priority, description);
 		msg.sendMessage(socket);
 	}
 	
