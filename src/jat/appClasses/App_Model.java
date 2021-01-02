@@ -127,14 +127,12 @@ public class App_Model extends Model {
 	}
 	
 	public void Logout(Client client) {
-		Result_msg msg;
-		if (client.getToken() != null)
-			msg = new Result_msg("true");
-		else
-			msg = new Result_msg("false");
-		
-		client.setToken();
-		client.send(msg);
+		if (client.getToken() != null) {
+			answerValidRequest(client);
+			client.setToken();
+		} else {
+			answerInvalidRequest(client);
+		}
 	}
 	
 	public void createToDo(String title, Priority priority, String description, 
