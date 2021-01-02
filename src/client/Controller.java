@@ -53,7 +53,7 @@ public class Controller {
 		
 		model.newestMessage.addListener((observable, oldValue, newValue) -> {
 			
-			newestMessage = newValue;
+			//newestMessage = newValue;
 			
 			if (model.lastSentMessage.equals("CreateLogin")) {
 				if(model.result) {

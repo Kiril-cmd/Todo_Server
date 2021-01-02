@@ -136,7 +136,6 @@ public class Model {
 		lastSentMessage = "GetTodo";
 		GetToDo_msg msg = new GetToDo_msg (token, id);
 		msg.sendMessage(socket);
-		
 	}
 	
 	public void DeleteTodo(String token, String id) {
