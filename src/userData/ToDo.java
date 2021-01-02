@@ -28,10 +28,14 @@ public class ToDo {
 	
 	@Override
 	public String toString() {
+		String toDoString = null;
+		
 		if(dueDate != null)
-			return id + '|' + title + '|' + priority + '|' + description + '|' + dueDate.format(DateTimeFormatter.ISO_DATE);
+			toDoString = Integer.toString(id) + '|' + title + '|' + priority + '|' + description + '|' + dueDate.format(DateTimeFormatter.ISO_DATE);
 		else
-			return id + '|' + title + '|' + priority + '|' + description;
+			toDoString =  Integer.toString(id) + '|' + title + '|' + priority + '|' + description;
+		
+		return toDoString;
 	}
 	
 	public int getId() {
