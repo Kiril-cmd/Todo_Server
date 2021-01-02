@@ -41,14 +41,15 @@ public class Account {
 	}
 	
 	public boolean deleteToDo(int id) {
+		boolean removed = false;
 		Iterator<ToDo> iterator = toDoList.iterator();		
-		while (iterator.hasNext()) {
+		while (iterator.hasNext() && !removed) {
 			if (iterator.next().getId() == id) {
 				iterator.remove();
-				return true;
+				removed = true;
 			}				
 		}
-		return false;
+		return removed;
 	}
 	
 	public String toDoListToString() {

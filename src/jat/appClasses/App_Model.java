@@ -187,8 +187,10 @@ public class App_Model extends Model {
 		
 		boolean deleted = false;
 		for (Account account : accounts) {
-			if (account.getUserName().equals(client.getUserName()))
+			if (account.getUserName().equals(client.getUserName())) {
 				deleted = account.deleteToDo(id);
+				break;
+			}
 		}		
 		if (deleted)
 			answerValidRequest(client, Integer.toString(id));
