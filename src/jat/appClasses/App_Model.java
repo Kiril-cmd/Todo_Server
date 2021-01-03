@@ -78,17 +78,23 @@ public class App_Model extends Model {
     	}
     }
     
-    public synchronized void createAccount(String username, String password, Client client) {
+    public synchronized void createAccount(String userName, String password, Client client) {
     	// check if account with the requested userName already exists
     	for (Account account : accounts) {
-    		if (account.getUserName().equals(username)) {
+    		if (account.getUserName().equals(userName)) {
     			answerInvalidRequest(client);
     			return;
     		}
     	}
     	
+    	// validate account data
+    	if (!Account.validateLoginData(userName, password)) {
+    		answerInvalidRequest(client);
+    		return;
+    	}
+    	
     	// creates new account with the data given by the user
-    	Account account = new Account(username, password);
+    	Account account = new Account(userName, password);
     	accounts.add(account);
     	answerValidRequest(client);
     }
@@ -111,7 +117,7 @@ public class App_Model extends Model {
 	}
 	
 	public void changePassword(String newPassword, String token, Client client) {	
-		if (!client.validateToken(token)) {
+		if (!client.validateToken(token) || !Account.validatePassword(newPassword)) {
 			answerInvalidRequest(client);
 			return;
 		}
@@ -140,7 +146,7 @@ public class App_Model extends Model {
 	public void createToDo(String title, Priority priority, String description, 
 			LocalDate dueDate, String token, Client client) {	
 		
-		if (!client.validateToken(token)) {
+		if (!client.validateToken(token) || !ToDo.validateDueDate(dueDate)) {
 			answerInvalidRequest(client);
 			return;
 		}

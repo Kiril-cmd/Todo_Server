@@ -41,4 +41,13 @@ public class ToDo {
 	public int getId() {
 		return id;
 	}
+	
+	public static boolean validateDueDate(LocalDate dueDate) {
+		boolean valid = false;
+		LocalDate toDay = LocalDate.now();
+		if (dueDate.isAfter(toDay) || dueDate.isEqual(toDay))
+			valid = true;
+		
+		return valid;
+	}
 }

@@ -66,4 +66,32 @@ public class Account {
 		}
 		return toDos;
 	}
+	
+	public static boolean validateLoginData(String userName, String password) {
+		boolean valid = false;
+		try {
+			// splits the userName into 3 parts
+			String[] userArray = userName.split("@");
+			String[] nameSecond = userArray[1].split("\\."); 
+			
+			String nameStart = userArray[0];
+			String nameMiddle = nameSecond[0];
+			String nameEnd = nameSecond[1];
+			
+			if (nameStart.length() > 2 && nameMiddle.length() > 1 && nameEnd.length() > 1 
+					&& validatePassword(password)) {
+				valid = true;
+			} 
+		} catch (Exception e) {	
+		}	
+		return valid;
+	}
+	
+	public static boolean validatePassword(String password) {
+		boolean valid = false;	
+		if (password.length() > 5)
+			valid = true;
+		
+		return valid;
+	}
 }
