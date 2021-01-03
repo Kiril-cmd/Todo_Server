@@ -41,12 +41,21 @@ public class ToDo {
 		if(dueDate != null)
 			toDoString = Integer.toString(id) + '|' + title + '|' + priority + '|' + description + '|' + dueDate.format(DateTimeFormatter.ISO_DATE);
 		else
-			toDoString =  Integer.toString(id) + '|' + title + '|' + priority + '|' + description;
+			toDoString = Integer.toString(id) + '|' + title + '|' + priority + '|' + description;
 		
 		return toDoString;
 	}
 	
 	public int getId() {
 		return id;
+	}
+	
+	public static boolean validateDueDate(LocalDate dueDate) {
+		boolean valid = false;
+		LocalDate toDay = LocalDate.now();
+		if (dueDate.isAfter(toDay) || dueDate.isEqual(toDay))
+			valid = true;
+		
+		return valid;
 	}
 }
