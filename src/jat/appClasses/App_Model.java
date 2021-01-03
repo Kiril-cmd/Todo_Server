@@ -225,7 +225,8 @@ public class App_Model extends Model {
 	}
 	
 	public void getPing(String token, Client client) {
-		if (token == null || client.validateToken(token))
+		if ((token == null && client.getToken() == null) 
+				|| (token != null && client.validateToken(token)))
 			answerValidRequest(client);
 		else
 			answerInvalidRequest(client);
