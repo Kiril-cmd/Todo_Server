@@ -5,7 +5,7 @@ public class DeleteToDo_msg extends Message {
 	String token;
 	
 	public DeleteToDo_msg(String token, String id) {
-		super(MessageType.DELETE_TODO);
+		super(MessageType.DeleteToDo);
 		this.token = token;
 		this.id = Integer.parseInt(id);
 	}

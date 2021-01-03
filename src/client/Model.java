@@ -26,14 +26,17 @@ public class Model {
 	
 	protected final ObservableList<ToDo> todos = FXCollections.observableArrayList();
 	
+	protected boolean connectionfailed = false;
 	protected String lastSentMessage = null;
 	protected boolean result;
 	protected String data;
 	protected String token;
-	protected int id;
+	protected String everyId;
+	
+	
 	
 	public void addNewTodo(int id, String title, Priority priority, String description, LocalDate dueDate) {
-		todos.add(new ToDo(title, priority, description, dueDate));
+		todos.add(new ToDo(id, title, priority, description, dueDate));
 	}
 
 	// getters and setters
@@ -68,6 +71,8 @@ public class Model {
 
 			} catch (Exception e) {
 			logger.warning(e.toString());
+			System.out.println("Connection failed");
+			connectionfailed = true;
 		}
 	}
 
@@ -139,7 +144,7 @@ public class Model {
 	}
 	
 	public void DeleteTodo(String token, String id) {
-		lastSentMessage = "ListTodos";
+		lastSentMessage = "DeleteTodo";
 		DeleteToDo_msg msg = new DeleteToDo_msg(token, id);
 		msg.sendMessage(socket);
 	}
@@ -147,6 +152,12 @@ public class Model {
 	public void ListTodos(String token) {
 		lastSentMessage = "ListTodos";
 		ListToDos_msg msg = new ListToDos_msg(token);
+		msg.sendMessage(socket);
+	}
+	
+	public void Ping() {
+		lastSentMessage = "Ping";
+		Ping_msg msg = new Ping_msg();
 		msg.sendMessage(socket);
 	}
 	

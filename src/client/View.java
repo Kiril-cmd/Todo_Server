@@ -31,6 +31,12 @@ public class View {
 	Button btnLogin = new Button("Login");
 	Button btnRegister = new Button("Register new account");
 	Alert alertAccount = new Alert (AlertType.ERROR);
+	Label lblIpAddress = new Label ("IP Address");
+	TextField txtIpAddress = new TextField("127.0.0.1");
+	Label lblPort = new Label ("Port");
+	TextField txtPort = new TextField("50002");
+	Button btnConnect = new Button("Connect");
+	Alert alertConnection = new Alert(AlertType.ERROR);
 	
 	// Add Todos
 	Label lblMytodos = new Label ("My Todos");
@@ -43,7 +49,8 @@ public class View {
 	Label lblDuedate = new Label("Due date");
 	DatePicker dueDate = new DatePicker();
 	Button btnAddtodo = new Button("Add new todo");
-	Button btnUpdate = new Button("Update");
+	Button btnDelete = new Button("Delete");
+	Alert alertItem = new Alert(AlertType.INFORMATION);
 	
 	// Root
 	BorderPane root = new BorderPane();
@@ -59,6 +66,10 @@ public class View {
 		alertAccount.setTitle("Wrong account credentials");
 		alertAccount.setHeaderText("The username or the password is wrong");
 		
+		alertConnection.setTitle("Connection has failed");
+		alertConnection.setHeaderText("Please make sure the server is running. The port and the ip address must match with the server.");
+		
+		alertItem.setHeaderText("Please select an item");
 		
 		root = loginView();
 		//root = todoView();
@@ -77,12 +88,14 @@ public class View {
 	public void todoView() {
 		Region spacer = new Region();
 		Region spacer2 = new Region();
+		Region spacer3 = new Region();
 		spacer.setPrefHeight(20);
 		spacer2.setPrefWidth(20);
+		spacer3.setPrefWidth(20);
 		
 		// ComboBox default selection
 		cmbPriority.getItems().setAll(userData.Priority.values());
-		cmbPriority.getSelectionModel().select(userData.Priority.MEDIUM);
+		cmbPriority.getSelectionModel().select(userData.Priority.Medium);
 		
 		VBox title = new VBox(lblMytodos);
 		GridPane gridPane = new GridPane();
@@ -99,7 +112,6 @@ public class View {
 		gridPane.add(txtDescription, 2, 1);
 		gridPane.add(dueDate, 3, 1);
 		gridPane.add(btnAddtodo, 4, 1);
-		gridPane.add(btnUpdate, 5, 1);
 		
 		title.getStyleClass().add("vbox");
 		gridPane.getStyleClass().add("gridpane");
@@ -107,7 +119,7 @@ public class View {
 		// Add all todos to the list
 		listView = new ListView<>(model.todos);
 		
-		HBox todoList = new HBox(listView);
+		HBox todoList = new HBox(listView, spacer3, btnDelete);
 		
 		BorderPane root = new BorderPane();
 		root.setTop(title);
@@ -124,10 +136,15 @@ public class View {
 		Region spacer = new Region();
 		Region spacer2 = new Region();
 		Region spacer3 = new Region();
+		Region spacer4 = new Region();
+		Region spacer5 = new Region();
+		
 		
 		spacer.setPrefHeight(20);
 		spacer2.setPrefHeight(20);
 		spacer3.setPrefHeight(20);
+		spacer4.setPrefHeight(20);
+		spacer5.setPrefHeight(20);
 		VBox.setVgrow(spacer, Priority.NEVER);
 		HBox.setHgrow(spacer2, Priority.ALWAYS);
 		VBox.setVgrow(spacer3, Priority.ALWAYS);
@@ -139,9 +156,20 @@ public class View {
 		
 		HBox hbox = new HBox(btnLogin, spacer2, btnRegister);
 		
+		GridPane topPane = new GridPane();
+		topPane.add(lblIpAddress, 0, 0);
+		topPane.add(txtIpAddress, 1, 0);
+		topPane.add(spacer4, 0, 1);
+		topPane.add(lblPort, 0, 2);
+		topPane.add(txtPort, 1, 2);
+		topPane.add(spacer5, 0, 3);
+		topPane.add(btnConnect, 0, 4);
+		topPane.getStyleClass().add("gridpane");
+		
+		root.setTop(topPane);
+		root.setCenter(vbox);
 		root.setBottom(hbox);
 		
-		root.setCenter(vbox);
 		return root;
 	}
 	

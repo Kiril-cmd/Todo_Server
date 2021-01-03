@@ -6,12 +6,12 @@ public class Result_msg extends Message {
 	private String token;
 	
 	public Result_msg(String result) {
-		super(MessageType.RESULT);
+		super(MessageType.Result);
 		this.result = Boolean.parseBoolean(result);
 	}
 	
 	public Result_msg(String result, String data) {
-		super(MessageType.RESULT);
+		super(MessageType.Result);
 		this.result = Boolean.parseBoolean(result);
 		this.data = data;
 	}
