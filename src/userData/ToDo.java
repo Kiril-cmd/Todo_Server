@@ -33,7 +33,7 @@ public class ToDo {
 		if(dueDate != null)
 			toDoString = Integer.toString(id) + '|' + title + '|' + priority + '|' + description + '|' + dueDate.format(DateTimeFormatter.ISO_DATE);
 		else
-			toDoString =  Integer.toString(id) + '|' + title + '|' + priority + '|' + description;
+			toDoString = Integer.toString(id) + '|' + title + '|' + priority + '|' + description;
 		
 		return toDoString;
 	}

@@ -145,7 +145,7 @@ public class App_Model extends Model {
 			return;
 		}
 		
-		ToDo toDo = new ToDo(title, priority, description);
+		ToDo toDo = new ToDo(title, priority, description, dueDate);
 		synchronized(accounts) {
 			for (Account account : accounts) {
 				if (account.getUserName().equals(client.getUserName())) {
