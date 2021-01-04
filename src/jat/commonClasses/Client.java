@@ -54,6 +54,10 @@ public class Client {
 						model.answerInvalidRequest(Client.this);
 					} else if (msg instanceof Leave_msg) {
 						stop = true;
+						try {
+							socket.close();
+						} catch (Exception e) {
+						}
 						model.removeClient(Client.this);
 					}
 				}
