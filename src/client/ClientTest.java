@@ -46,8 +46,9 @@ class ClientTest {
 	}
 
 	@Test
-	void test() {
+	public void test() {
 		fail("Not yet implemented");
+		//assertEquals();
 	}
 
 }
