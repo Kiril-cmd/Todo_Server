@@ -34,15 +34,9 @@ public abstract class Message {
 					msg = new ChangePassword_msg(msgParts[1], msgParts[2]);
 				} else if (msgParts[0].equals(MessageType.Logout.toString())) {
 					msg = new Logout_msg();
-<<<<<<< HEAD
 				} else if (msgParts[0].equals(MessageType.CreateToDo.toString())) {
 					msg = new CreateToDo_msg(msgParts[1], msgParts[2], msgParts[3], msgParts[4]);
 				} else if (msgParts[0].equals(MessageType.GetToDo.toString())) {
-=======
-				} else if (msgParts[0].equals(MessageType.CREATE_TODO.toString())) {
-					msg = new CreateToDo_msg(msgParts[1], msgParts[2], msgParts[3], msgParts[4], msgParts[5]);
-				} else if (msgParts[0].equals(MessageType.GET_TODO.toString())) {
->>>>>>> branch 'main' of https://github.com/Kiril-cmd/Todo_Server.git
 					msg = new GetToDo_msg(msgParts[1], msgParts[2]);
 				} else if (msgParts[0].equals(MessageType.DeleteToDo.toString())) {
 					msg = new DeleteToDo_msg(msgParts[1], msgParts[2]);
