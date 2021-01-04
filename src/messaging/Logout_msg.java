@@ -3,7 +3,7 @@ package messaging;
 public class Logout_msg extends Message{
 	
 	public Logout_msg() {
-		super(MessageType.LOGOUT);
+		super(MessageType.Logout);
 	}
 	
 	@Override

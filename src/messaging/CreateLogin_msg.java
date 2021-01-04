@@ -5,7 +5,7 @@ public class CreateLogin_msg extends Message {
 	private String password;
 			
 	public CreateLogin_msg(String userName, String password) {
-		super(MessageType.CREATE_LOGIN);
+		super(MessageType.CreateLogin);
 		this.userName = userName;
 		this.password = password;
 	}

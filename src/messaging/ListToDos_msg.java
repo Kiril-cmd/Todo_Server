@@ -4,7 +4,7 @@ public class ListToDos_msg extends Message {
 	String token;
 	
 	public ListToDos_msg(String token) {
-		super(MessageType.LIST_TODOS);
+		super(MessageType.ListToDos);
 		this.token = token;
 	}
 	

@@ -26,6 +26,14 @@ public class ToDo {
 		this.description = description;
 	}
 	
+	public ToDo(int id, String title, Priority priority, String description, LocalDate dueDate) {
+		this.id = id;
+		this.title = title;
+		this.priority = priority;
+		this.description = description;
+		this.dueDate = dueDate;
+	}
+	
 	@Override
 	public String toString() {
 		String toDoString = null;

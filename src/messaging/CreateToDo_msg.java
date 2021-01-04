@@ -11,7 +11,7 @@ public class CreateToDo_msg extends Message {
 	private LocalDate dueDate;
 	
 	public CreateToDo_msg(String token, String title, String priority, String description) {
-		super(MessageType.CREATE_TODO);
+		super(MessageType.CreateToDo);
 		this.token = token;
 		this.title = title;
 		this.priority = Priority.valueOf(priority);
@@ -19,7 +19,7 @@ public class CreateToDo_msg extends Message {
 	}
 
 	public CreateToDo_msg(String token, String title, String priority, String description, String dueDate) {
-		super(MessageType.CREATE_TODO);
+		super(MessageType.CreateToDo);
 		this.token = token;
 		this.title = title;
 		this.priority = Priority.valueOf(priority);

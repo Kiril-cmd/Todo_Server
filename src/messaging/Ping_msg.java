@@ -4,11 +4,11 @@ public class Ping_msg extends Message {
 	private String token = null;
 	
 	public Ping_msg() {
-		super(MessageType.PING);
+		super(MessageType.Ping);
 	}
 	
 	public Ping_msg(String token) {
-		super(MessageType.PING);
+		super(MessageType.Ping);
 		this.token = token;
 	}
 

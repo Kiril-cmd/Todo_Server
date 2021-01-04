@@ -5,7 +5,7 @@ public class GetToDo_msg extends Message {
 	private String token;
 	
 	public GetToDo_msg(String token, String id) {
-		super(MessageType.GET_TODO);
+		super(MessageType.GetToDo);
 		this.token = token;
 		this.id = Integer.parseInt(id);
 	}

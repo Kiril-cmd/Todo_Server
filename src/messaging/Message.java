@@ -26,35 +26,36 @@ public abstract class Message {
 			try {
 				// Parse message
 				String msgParts[] = msgText.split("\\|");
-				if (msgParts[0].equals(MessageType.CREATE_LOGIN.toString())) {
+				if (msgParts[0].equals(MessageType.CreateLogin.toString())) {
 					msg = new CreateLogin_msg(msgParts[1], msgParts[2]);
-				} else if (msgParts[0].equals(MessageType.LOGIN.toString())) {
+				} else if (msgParts[0].equals(MessageType.Login.toString())) {
 					msg = new Login_msg(msgParts[1], msgParts[2]);
-				} else if (msgParts[0].equals(MessageType.CHANGE_PASSWORD.toString())) {
+				} else if (msgParts[0].equals(MessageType.ChangePassword.toString())) {
 					msg = new ChangePassword_msg(msgParts[1], msgParts[2]);
-				} else if (msgParts[0].equals(MessageType.LOGOUT.toString())) {
+				} else if (msgParts[0].equals(MessageType.Logout.toString())) {
 					msg = new Logout_msg();
-				} else if (msgParts[0].equals(MessageType.CREATE_TODO.toString())) {
+				} else if (msgParts[0].equals(MessageType.CreateToDo.toString())) {
 					if (msgParts.length < 6)
 						msg = new CreateToDo_msg(msgParts[1], msgParts[2], msgParts[3], msgParts[4]);
 					else
 						msg = new CreateToDo_msg(msgParts[1], msgParts[2], msgParts[3], msgParts[4], msgParts[5]);
-				} else if (msgParts[0].equals(MessageType.GET_TODO.toString())) {
+				} else if (msgParts[0].equals(MessageType.GetToDo.toString())) {
 					msg = new GetToDo_msg(msgParts[1], msgParts[2]);
-				} else if (msgParts[0].equals(MessageType.DELETE_TODO.toString())) {
+				} else if (msgParts[0].equals(MessageType.DeleteToDo.toString())) {
 					msg = new DeleteToDo_msg(msgParts[1], msgParts[2]);
-				} else if (msgParts[0].equals(MessageType.LIST_TODOS.toString())) {
+				} else if (msgParts[0].equals(MessageType.ListToDos.toString())) {
 					msg = new ListToDos_msg(msgParts[1]);
-				} else if (msgParts[0].equals(MessageType.PING.toString())) {
+				} else if (msgParts[0].equals(MessageType.Ping.toString())) {
 					if (msgParts.length > 1)
 						msg = new Ping_msg(msgParts[1]);
 					else
 						msg = new Ping_msg();
-				} else if (msgParts[0].equals(MessageType.RESULT.toString())) {
+				} else if (msgParts[0].equals(MessageType.Result.toString())) {
 					if (msgParts.length > 2) {
 						String data = "";
-						for (int i = 1; i < msgParts.length; i++) {
+						for (int i = 2; i < msgParts.length; i++) {
 							data += msgParts[i];
+							if(i != msgParts.length-1) data += '|';
 						}
 						msg = new Result_msg(msgParts[1], data);
 					} else {
@@ -90,6 +91,4 @@ public abstract class Message {
 		return type;
 	}
 	
-	
-
 }

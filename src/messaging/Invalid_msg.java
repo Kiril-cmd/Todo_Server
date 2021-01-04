@@ -3,7 +3,7 @@ package messaging;
 public class Invalid_msg extends Message {
 	
 	public Invalid_msg() {
-		super(MessageType.INVALID);
+		super(MessageType.Invalid);
 	}
 	
 	@Override
