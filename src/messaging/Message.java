@@ -65,7 +65,10 @@ public abstract class Message {
 					msg = new Invalid_msg();
 				}
 			} catch (Exception e) {
-				msg = new Invalid_msg();
+				if (msgText == null)
+					msg = new Leave_msg();
+				else
+					msg = new Invalid_msg();
 			}			
 		
 		} catch(IOException e) {
