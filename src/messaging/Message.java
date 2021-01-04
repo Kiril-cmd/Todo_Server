@@ -69,7 +69,7 @@ public abstract class Message {
 			}			
 		
 		} catch(IOException e) {
-			logger.warning(e.toString());
+			logger.info(e.toString());
 			msg = new Leave_msg();
 		}
 		return msg;

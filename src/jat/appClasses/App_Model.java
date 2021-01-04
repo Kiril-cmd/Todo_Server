@@ -50,6 +50,7 @@ public class App_Model extends Model {
 							synchronized(clients) {
 								clients.add(client);	
 							}
+							serviceLocator.getLogger().info("New connection with: " + client.toString() + ", " + "Socket: " + socket.toString());
 						} catch (IOException e) {
 							serviceLocator.getLogger().info(e.toString());
 						}
@@ -94,6 +95,7 @@ public class App_Model extends Model {
     	}
     	
     	// creates new account with the data given by the user
+    	serviceLocator.getLogger().info("Create new Account with username: " + userName);
     	Account account = new Account(userName, password);
     	accounts.add(account);
     	answerValidRequest(client);
@@ -106,6 +108,7 @@ public class App_Model extends Model {
 		while (iterator.hasNext() && exists == false) {
 			Account account = iterator.next();
 			if (account.getUserName().equals(userName) && account.getPassword().equals(password)) {
+				serviceLocator.getLogger().info("Login user: " + userName);
 				client.setToken();
 				client.setUserName(userName);
 				answerValidRequest(client, client.getToken());
@@ -121,7 +124,8 @@ public class App_Model extends Model {
 			answerInvalidRequest(client);
 			return;
 		}
-				
+		
+		serviceLocator.getLogger().info("change password for user: " + client.getUserName());
 		synchronized (accounts) {
 			for (Account account : accounts) {
 				if (account.getUserName().equals(client.getUserName())) {
@@ -135,6 +139,7 @@ public class App_Model extends Model {
 	
 	public void Logout(Client client) {
 		if (client.getToken() != null) {
+			serviceLocator.getLogger().info("Logout user: " + client.getUserName());
 			client.setToken();
 			client.setUserName();
 			answerValidRequest(client);
@@ -161,6 +166,7 @@ public class App_Model extends Model {
 			return;
 		}
 		
+		serviceLocator.getLogger().info("Store new todo");
 		synchronized(accounts) {
 			for (Account account : accounts) {
 				if (account.getUserName().equals(client.getUserName())) {
@@ -190,10 +196,12 @@ public class App_Model extends Model {
 			}
 		}
 		
-		if (toDo != null)
+		if (toDo != null) {
+			serviceLocator.getLogger().info("Send todo to client: " + client.toString());
 			answerValidRequest(client, toDo.toString());
-		else
+		} else {
 			answerInvalidRequest(client);
+		}
 	}
 	
 	public void deleteToDo(int id, String token, Client client) {
@@ -202,6 +210,7 @@ public class App_Model extends Model {
 			return;
 		}
 		
+		serviceLocator.getLogger().info("delete todo: " + Integer.toString(id));
 		boolean deleted = false;
 		for (Account account : accounts) {
 			if (account.getUserName().equals(client.getUserName())) {
@@ -221,6 +230,7 @@ public class App_Model extends Model {
 			return;
 		}
 		
+		serviceLocator.getLogger().info("List todos");
 		boolean accountFound = false;
 		Iterator<Account> iterator = accounts.iterator();
 		String toDos = null;
@@ -240,6 +250,7 @@ public class App_Model extends Model {
 	}
 	
 	public void getPing(String token, Client client) {
+		serviceLocator.getLogger().info("Give ping");
 		if ((token == null && client.getToken() == null) 
 				|| (token != null && client.validateToken(token)))
 			answerValidRequest(client);
@@ -249,23 +260,27 @@ public class App_Model extends Model {
 	
 	// answers client if only the result must be send
 	public void answerValidRequest(Client client) {
+		serviceLocator.getLogger().info("Reply valid request without data");
 		Result_msg msg = new Result_msg("true");
 		client.send(msg);
 	}
 	
 	// answers client if the result and data are required
 	public void answerValidRequest(Client client, String data) {
+		serviceLocator.getLogger().info("Reply valid request with data");
 		Result_msg msg = new Result_msg("true", data);
 		client.send(msg);
 	}
 	
 	// answers the client if the request is invalid
 	public void answerInvalidRequest(Client client) {
+		serviceLocator.getLogger().info("Reply invalid request");
 		Result_msg msg = new Result_msg("false");
 		client.send(msg);
 	}
 	
 	public void removeClient(Client client) {
+		serviceLocator.getLogger().info("Remove client: " + client.toString());
 		clients.remove(client);
 	}
  
