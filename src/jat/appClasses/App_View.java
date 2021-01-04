@@ -23,13 +23,8 @@ import javafx.stage.Stage;
  * 
  * @author Brad Richards
  */
+// No view provided for this server application
 public class App_View extends View<App_Model> {
-//    Menu menuFile;
-//    Menu menuFileLanguage;
-//    Menu menuHelp;
-//    
-//    Label lblNumber;
-//    Button btnClick;
 
 	public App_View(Stage stage, App_Model model) {
         super(stage, model);
@@ -38,60 +33,7 @@ public class App_View extends View<App_Model> {
 
 	@Override
 	protected Scene create_GUI() {
-//	    ServiceLocator sl = ServiceLocator.getServiceLocator();  
-//	    Logger logger = sl.getLogger();
-//	    
-//	    MenuBar menuBar = new MenuBar();
-//	    menuFile = new Menu();
-//	    menuFileLanguage = new Menu();
-//	    menuFile.getItems().add(menuFileLanguage);
-//	    
-//       for (Locale locale : sl.getLocales()) {
-//           MenuItem language = new MenuItem(locale.getLanguage());
-//           menuFileLanguage.getItems().add(language);
-//           language.setOnAction( event -> {
-//				sl.getConfiguration().setLocalOption("Language", locale.getLanguage());
-//                sl.setTranslator(new Translator(locale.getLanguage()));
-//                updateTexts();
-//            });
-//        }
-//	    
-//        menuHelp = new Menu();
-//	    menuBar.getMenus().addAll(menuFile, menuHelp);
-//		
-//		GridPane root = new GridPane();
-//		root.add(menuBar, 0, 0);
-//		
-//		lblNumber = new Label();
-//        lblNumber.setText(Integer.toString(model.getValue()));
-//        lblNumber.setMinWidth(200);
-//        lblNumber.setAlignment(Pos.BASELINE_CENTER);
-//        root.add(lblNumber, 0, 1);
-//        
-//        btnClick = new Button();
-//        btnClick.setMinWidth(200);
-//        root.add(btnClick, 0, 2);
-//        
-//        updateTexts();
-//		
-//        Scene scene = new Scene(root);
-//        scene.getStylesheets().add(
-//                getClass().getResource("app.css").toExternalForm());
-//        return scene;
 		return null;
 	}
-	
-//	   protected void updateTexts() {
-//	       Translator t = ServiceLocator.getServiceLocator().getTranslator();
-//	        
-//	        // The menu entries
-//	       menuFile.setText(t.getString("program.menu.file"));
-//	       menuFileLanguage.setText(t.getString("program.menu.file.language"));
-//           menuHelp.setText(t.getString("program.menu.help"));
-//	        
-//	        // Other controls
-//           btnClick.setText(t.getString("button.clickme"));
-//           
-//           stage.setTitle(t.getString("program.name"));
-//	    }
+
 }

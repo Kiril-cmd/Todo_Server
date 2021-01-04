@@ -36,6 +36,7 @@ public abstract class View<M extends Model> {
      */
     public void start() {
 //        stage.show();
+//    	No stage needed
     }
     
     /**

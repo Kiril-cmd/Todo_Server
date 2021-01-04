@@ -14,37 +14,18 @@ import javafx.stage.WindowEvent;
  * 
  * @author Brad Richards
  */
+
+// Controller needed to initialize the server. Interaction with view class not necessary.
 public class App_Controller extends Controller<App_Model, App_View> {
     ServiceLocator serviceLocator;
+    private int port = 50002;
 
     public App_Controller(App_Model model, App_View view) {
         super(model, view);
         
-     // register ourselves to listen for button clicks
-//        view.btnClick.setOnAction(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent event) {
-//                buttonClick();
-//            }
-//        });
-
-        // register ourselves to handle window-closing event
-//        view.getStage().setOnCloseRequest(new EventHandler<WindowEvent>() {
-//            @Override
-//            public void handle(WindowEvent event) {
-//                Platform.exit();
-//            }
-//        });
-        
         serviceLocator = ServiceLocator.getServiceLocator();        
         serviceLocator.getLogger().info("Application controller initialized");
-        model.startServer(50002);
+        model.startServer(port);
     }
-    
-    public void buttonClick() {
-//        model.incrementValue();
-//        String newText = Integer.toString(model.getValue());        
-//
-//        view.lblNumber.setText(newText);        
-    }
+ 
 }
