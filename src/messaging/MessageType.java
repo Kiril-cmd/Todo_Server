@@ -11,7 +11,8 @@ public enum MessageType {
 	LIST_TODOS,
 	PING,
 	RESULT,
-	INVALID;
+	INVALID,
+	LEAVE;
 	
 }
 

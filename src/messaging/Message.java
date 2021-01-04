@@ -35,7 +35,10 @@ public abstract class Message {
 				} else if (msgParts[0].equals(MessageType.LOGOUT.toString())) {
 					msg = new Logout_msg();
 				} else if (msgParts[0].equals(MessageType.CREATE_TODO.toString())) {
-					msg = new CreateToDo_msg(msgParts[1], msgParts[2], msgParts[3], msgParts[4], msgParts[5]);
+					if (msgParts.length < 6)
+						msg = new CreateToDo_msg(msgParts[1], msgParts[2], msgParts[3], msgParts[4]);
+					else
+						msg = new CreateToDo_msg(msgParts[1], msgParts[2], msgParts[3], msgParts[4], msgParts[5]);
 				} else if (msgParts[0].equals(MessageType.GET_TODO.toString())) {
 					msg = new GetToDo_msg(msgParts[1], msgParts[2]);
 				} else if (msgParts[0].equals(MessageType.DELETE_TODO.toString())) {
@@ -66,6 +69,7 @@ public abstract class Message {
 		
 		} catch(IOException e) {
 			logger.warning(e.toString());
+			msg = new Leave_msg();
 		}
 		return msg;
 	}

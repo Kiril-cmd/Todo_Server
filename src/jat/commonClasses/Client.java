@@ -13,6 +13,7 @@ public class Client {
 	private Socket socket;
 	private String token;
 	private String userName;
+	private boolean stop = false;
 	
 	public Client(App_Model model, Socket socket) {
 		this.model = model;
@@ -21,7 +22,7 @@ public class Client {
 		Runnable runnable = new Runnable() {
 			@Override
 			public void run() {
-				while(true) {
+				while(!stop) {
 					Message msg = Message.receiveMessage(socket);
 					if (msg instanceof CreateLogin_msg) {
 						CreateLogin_msg specMsg = (CreateLogin_msg) msg;
@@ -51,6 +52,9 @@ public class Client {
 						model.Logout(Client.this);
 					} else if (msg instanceof Invalid_msg) {
 						model.answerInvalidRequest(Client.this);
+					} else if (msg instanceof Leave_msg) {
+						stop = true;
+						model.removeClient(Client.this);
 					}
 				}
 			}

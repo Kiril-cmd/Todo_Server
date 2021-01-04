@@ -146,12 +146,21 @@ public class App_Model extends Model {
 	public void createToDo(String title, Priority priority, String description, 
 			LocalDate dueDate, String token, Client client) {	
 		
-		if (!client.validateToken(token) || !ToDo.validateDueDate(dueDate)) {
+		if (!client.validateToken(token)) {
 			answerInvalidRequest(client);
 			return;
 		}
 		
-		ToDo toDo = new ToDo(title, priority, description, dueDate);
+		ToDo toDo = null;
+		if (dueDate == null) {
+			toDo = new ToDo(title, priority, description);
+		} else if (dueDate != null && ToDo.validateDueDate(dueDate)) {
+			toDo = new ToDo(title, priority, description, dueDate);
+		} else {
+			answerInvalidRequest(client);
+			return;
+		}
+		
 		synchronized(accounts) {
 			for (Account account : accounts) {
 				if (account.getUserName().equals(client.getUserName())) {
@@ -254,6 +263,10 @@ public class App_Model extends Model {
 	public void answerInvalidRequest(Client client) {
 		Result_msg msg = new Result_msg("false");
 		client.send(msg);
+	}
+	
+	public void removeClient(Client client) {
+		clients.remove(client);
 	}
  
 }
