@@ -24,9 +24,9 @@ public class View {
 	private Model model;
 	
 	// Login
-	Label lblEmail = new Label("Enter your current email or your new email: ");
+	Label lblEmail = new Label("Enter your current email or your new email (***@**.**): ");
 	TextField txtEmail = new TextField();
-	Label lblPassword = new Label ("Enter your current password or your new password: ");
+	Label lblPassword = new Label ("Enter your current password or your new password (min. 6 characters): ");
 	TextField txtPassword = new TextField();
 	Button btnLogin = new Button("Login");
 	Button btnRegister = new Button("Register new account");
@@ -36,6 +36,7 @@ public class View {
 	Label lblPort = new Label ("Port");
 	TextField txtPort = new TextField("50002");
 	Button btnConnect = new Button("Connect");
+	Button btnChangePassword = new Button("Change Password");
 	Alert alertConnection = new Alert(AlertType.ERROR);
 	
 	// Add Todos
@@ -51,6 +52,8 @@ public class View {
 	Button btnAddtodo = new Button("Add new todo");
 	Button btnDelete = new Button("Delete");
 	Alert alertItem = new Alert(AlertType.INFORMATION);
+	Button btnLogout = new Button("Logout");
+	Label lblServer = new Label("Reply from server: ");
 	
 	// Root
 	BorderPane root = new BorderPane();
@@ -71,13 +74,9 @@ public class View {
 		
 		alertItem.setHeaderText("Please select an item");
 		
-		root = loginView();
-		//root = todoView();
+		// set loinView at the start
+		loginView();
 		
-		Scene scene = new Scene(root);
-		stage.setScene(scene);
-		scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-		stage.setTitle("Client");
 	}
 	
 	public void setTodoView() {
@@ -89,15 +88,22 @@ public class View {
 		Region spacer = new Region();
 		Region spacer2 = new Region();
 		Region spacer3 = new Region();
+		Region spacer4 = new Region();
+		Region spacer5 = new Region();
+		Region spacer6 = new Region();
 		spacer.setPrefHeight(20);
 		spacer2.setPrefWidth(20);
 		spacer3.setPrefWidth(20);
+		
+		HBox.setHgrow(spacer4, Priority.ALWAYS);
+		HBox.setHgrow(spacer5, Priority.ALWAYS);
+		HBox.setHgrow(spacer6, Priority.ALWAYS);
 		
 		// ComboBox default selection
 		cmbPriority.getItems().setAll(userData.Priority.values());
 		cmbPriority.getSelectionModel().select(userData.Priority.Medium);
 		
-		VBox title = new VBox(lblMytodos);
+		HBox title = new HBox(lblMytodos, spacer6, btnChangePassword, spacer4, btnLogout);
 		GridPane gridPane = new GridPane();
 		gridPane.setHgap(10);
 		gridPane.setVgap(10);
@@ -118,33 +124,35 @@ public class View {
 		
 		// Add all todos to the list
 		listView = new ListView<>(model.todos);
-		
-		HBox todoList = new HBox(listView, spacer3, btnDelete);
+		// Clear everything before loading
+		model.todos.clear();
+		HBox todoList = new HBox(listView, spacer3, btnDelete, spacer5, lblServer);
 		
 		BorderPane root = new BorderPane();
 		root.setTop(title);
 		root.setCenter(gridPane);
 		root.setBottom(todoList);
-		
+				
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
 		scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 		stage.setTitle("Client");
 	}
 	
-	protected BorderPane loginView() {
+	protected void loginView() {
 		Region spacer = new Region();
 		Region spacer2 = new Region();
 		Region spacer3 = new Region();
 		Region spacer4 = new Region();
 		Region spacer5 = new Region();
-		
+		Region spacer6 = new Region();
 		
 		spacer.setPrefHeight(20);
 		spacer2.setPrefHeight(20);
 		spacer3.setPrefHeight(20);
 		spacer4.setPrefHeight(20);
 		spacer5.setPrefHeight(20);
+		spacer6.setPrefHeight(20);
 		VBox.setVgrow(spacer, Priority.NEVER);
 		HBox.setHgrow(spacer2, Priority.ALWAYS);
 		VBox.setVgrow(spacer3, Priority.ALWAYS);
@@ -164,13 +172,18 @@ public class View {
 		topPane.add(txtPort, 1, 2);
 		topPane.add(spacer5, 0, 3);
 		topPane.add(btnConnect, 0, 4);
+		topPane.add(spacer6, 1, 4);
+		topPane.add(lblServer, 2, 4);
 		topPane.getStyleClass().add("gridpane");
 		
 		root.setTop(topPane);
 		root.setCenter(vbox);
 		root.setBottom(hbox);
-		
-		return root;
+	
+		Scene scene = new Scene(root);
+		stage.setScene(scene);
+		scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+		stage.setTitle("Client");
 	}
 	
 	public void start(){

@@ -85,6 +85,7 @@ public abstract class Message {
 		} catch (IOException e) {
 			logger.warning(e.toString());
 		}		
+		
 	}
 	
 	public MessageType getType() {

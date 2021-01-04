@@ -33,6 +33,8 @@ public class Model {
 	protected String token;
 	protected String everyId;
 	
+	protected boolean stop = false;
+	
 	
 	
 	public void addNewTodo(int id, String title, Priority priority, String description, LocalDate dueDate) {
@@ -54,20 +56,25 @@ public class Model {
 			Runnable r = new Runnable() {
 				@Override
 				public void run() {
-					while (true) {
-						Result_msg msg = (Result_msg) Message.receiveMessage(socket);
-						
-						result = msg.getResult();
-						data = msg.getData();
-						
-						System.out.println(msg);
-						// Do it always at the end
-						newestMessage.set(msg.toString());
+					while (!stop ) {
+						try {
+							Result_msg msg = (Result_msg) Message.receiveMessage(socket);
+							
+							result = msg.getResult();
+							data = msg.getData();
+							
+							System.out.println(msg);
+							// Do it always at the end
+							newestMessage.set(msg.toString());
+						}catch (Exception e) {
+							
+						}
 					}
 				}
 			};
 			Thread t = new Thread(r);
 			t.start();
+			
 
 			} catch (Exception e) {
 			logger.warning(e.toString());
@@ -80,6 +87,7 @@ public class Model {
 		logger.info("Disconnect");
 		if (socket != null)
 			try {
+				stop = true;
 				socket.close();
 			} catch (IOException e) {
 				// Uninteresting

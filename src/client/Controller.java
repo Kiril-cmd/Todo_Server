@@ -57,9 +57,14 @@ public class Controller {
 			String title = view.txtTitle.getText();
 			String priority = view.cmbPriority.getValue().toString();
 			String description = view.txtDescription.getText();
-			String dueDate = null;
-			//String dueDate = view.dueDate.getValue().toString();
+			String dueDate;
+			if (view.dueDate.getValue() != null) {
+				dueDate = view.dueDate.getValue().toString();
+			} else {
+				dueDate = null;
+			}
 			model.CreateTodo(model.token, title, priority, description, dueDate);
+			view.dueDate.setValue(null);
 		});
 		
 		view.btnDelete.setOnAction(event -> {
@@ -71,7 +76,16 @@ public class Controller {
 			}
 		});
 		
+		view.btnLogout.setOnAction(event -> {
+			model.Logout();
+		});
+		
 		model.newestMessage.addListener((observable, oldValue, newValue) -> {
+			
+			// Display reply from the server to the user
+			Platform.runLater(() -> {
+				view.lblServer.setText("Reply from server: " + newValue);
+			});
 			
 			//newestMessage = newValue;
 			
@@ -96,7 +110,18 @@ public class Controller {
 			} else if (model.lastSentMessage.equals("ChangePassword")) {
 				
 			} else if (model.lastSentMessage.equals("Logout")) {
-				
+				if(model.result) {
+					model.token = null;
+					model.everyId = null;
+					
+					Platform.runLater(() -> {
+						model.todos.clear();
+						view.loginView();
+					});
+				} else {
+					System.out.println("Logout failed");
+				}
+					
 			} else if (model.lastSentMessage.equals("CreateTodo")) {
 				if(model.result) {
 					System.out.println("Todo was successfully created");
@@ -143,9 +168,23 @@ public class Controller {
 					model.everyId = model.data;
 					System.out.println(model.everyId);
 					String msgParts[] = model.everyId.split("\\|");
-					for(int i = 0; i < msgParts.length; i++) {
-						model.GetTodo(model.token, msgParts[i]);
-					}
+					
+					Runnable r = new Runnable() {
+						@Override
+						public void run() {
+							for(int i = 0; i < msgParts.length; i++) {
+								model.GetTodo(model.token, msgParts[i]);
+								try {
+									Thread.sleep(100);
+								} catch (InterruptedException e) {
+								}
+							}
+								
+						}
+					};
+					Thread t = new Thread(r);
+					t.setDaemon(true);
+					t.start();
 				} else {
 					System.out.println("No, todos were found");
 				}
@@ -169,5 +208,28 @@ public class Controller {
 		
 	}
 
-	
+		public void getTodo() {
+			String msgParts[] = model.data.split("\\|");
+		
+			int id = Integer.parseInt(msgParts[0]);
+			String title = msgParts[1];
+			Priority priority = Priority.valueOf(msgParts[2]);
+			String description = msgParts[3];
+			LocalDate dueDate;
+			
+			if(model.result && msgParts.length >= 5) {
+				dueDate = LocalDate.parse(msgParts[4]);
+				Platform.runLater(() -> {
+					model.addNewTodo(id, title, priority, description, dueDate);
+				});
+			} else if (model.result && msgParts.length < 5) {
+				dueDate = null;
+				Platform.runLater(() -> {
+					model.addNewTodo(id, title, priority, description, dueDate);
+				});
+			} else {
+				System.out.println("The server didn't send any todo");
+				model.ListTodos(model.token);
+			}
+		}
 }
