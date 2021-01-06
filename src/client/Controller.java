@@ -1,6 +1,7 @@
 package client;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import com.sun.net.httpserver.Authenticator.Result;
 
@@ -74,6 +75,13 @@ public class Controller {
 			} else {
 				view.alertItem.showAndWait();
 			}
+		});
+		
+		view.btnChangePassword.setOnAction(event -> {
+			Optional<String> OpNewPassword = view.changePassword.showAndWait();
+			String newPassword = OpNewPassword.toString();
+			
+			model.ChangePassword(model.token, newPassword);
 		});
 		
 		view.btnLogout.setOnAction(event -> {
@@ -208,28 +216,5 @@ public class Controller {
 		
 	}
 
-		public void getTodo() {
-			String msgParts[] = model.data.split("\\|");
 		
-			int id = Integer.parseInt(msgParts[0]);
-			String title = msgParts[1];
-			Priority priority = Priority.valueOf(msgParts[2]);
-			String description = msgParts[3];
-			LocalDate dueDate;
-			
-			if(model.result && msgParts.length >= 5) {
-				dueDate = LocalDate.parse(msgParts[4]);
-				Platform.runLater(() -> {
-					model.addNewTodo(id, title, priority, description, dueDate);
-				});
-			} else if (model.result && msgParts.length < 5) {
-				dueDate = null;
-				Platform.runLater(() -> {
-					model.addNewTodo(id, title, priority, description, dueDate);
-				});
-			} else {
-				System.out.println("The server didn't send any todo");
-				model.ListTodos(model.token);
-			}
-		}
 }

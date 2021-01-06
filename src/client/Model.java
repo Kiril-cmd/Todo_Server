@@ -125,9 +125,9 @@ public class Model {
 		msg.sendMessage(socket);
 	}
 	
-	public void ChangePassword(String email, String password) {
+	public void ChangePassword(String token, String password) {
 		lastSentMessage = "ChangePassword";
-		ChangePassword_msg msg = new ChangePassword_msg(email, password);
+		ChangePassword_msg msg = new ChangePassword_msg(token, password);
 		msg.sendMessage(socket);
 	}
 	

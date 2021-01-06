@@ -1,16 +1,17 @@
 package client;
 
 import userData.ToDo;
-
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -18,6 +19,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
 
 public class View {
 	protected Stage stage;
@@ -54,6 +56,10 @@ public class View {
 	Alert alertItem = new Alert(AlertType.INFORMATION);
 	Button btnLogout = new Button("Logout");
 	Label lblServer = new Label("Reply from server: ");
+	TextInputDialog changePassword = new TextInputDialog();
+	Label lblNewPassword = new Label("Enter your new password");
+	TextField txtNewPassword = new TextField();
+	Button btnOk = new Button("OK");
 	
 	// Root
 	BorderPane root = new BorderPane();
@@ -74,9 +80,13 @@ public class View {
 		
 		alertItem.setHeaderText("Please select an item");
 		
+		//Change Password
+		changePassword.setTitle("Set new Password");
+		changePassword.setHeaderText("Enter your new password:");
+		changePassword.setContentText("New password:");
+		
 		// set loinView at the start
 		loginView();
-		
 	}
 	
 	public void setTodoView() {
@@ -185,6 +195,7 @@ public class View {
 		scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 		stage.setTitle("Client");
 	}
+	
 	
 	public void start(){
 		stage.show();
