@@ -85,7 +85,7 @@ public class Controller {
 			model.Logout();
 		});
 		
-		model.newestMessage.addListener((observable, oldValue, newValue) -> {
+		model.newMessage.addListener((observable, oldValue, newValue) -> {
 			
 			// Display reply from the server to the user
 			Platform.runLater(() -> {

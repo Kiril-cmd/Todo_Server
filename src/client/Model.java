@@ -23,9 +23,8 @@ public class Model {
 	
 	protected SimpleStringProperty newestMessage = new SimpleStringProperty();
 	protected SimpleIntegerProperty newMessage = new SimpleIntegerProperty();
-	
-	
-	
+	private int messageCounter = -1;
+		
 	private Logger logger = Logger.getLogger("");
 	private Socket socket;
 	
@@ -74,11 +73,12 @@ public class Model {
 							
 							
 							newestMessage.set(msg.toString());
-							if(newMessage.equals(null)) {
-								newMessage.set(0);
-							} else {
-								
-							}
+							newMessage.set(++messageCounter);
+//							if(newMessage.equals(null)) {
+//								newMessage.set(0);
+//							} else {
+//								
+//							}
 						}catch (Exception e) {
 						}
 					}
@@ -192,6 +192,7 @@ public class Model {
 		Result_msg msg = new Result_msg(result, data);
 		msg.sendMessage(socket);
 	}
+
 	
 }
 	
