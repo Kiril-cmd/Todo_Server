@@ -10,6 +10,8 @@ import java.util.Scanner;
 import java.util.logging.Logger;
 
 import javafx.application.Platform;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,6 +22,9 @@ import userData.ToDo;
 public class Model {
 	
 	protected SimpleStringProperty newestMessage = new SimpleStringProperty();
+	protected SimpleIntegerProperty newMessage = new SimpleIntegerProperty();
+	
+	
 	
 	private Logger logger = Logger.getLogger("");
 	private Socket socket;
@@ -32,6 +37,7 @@ public class Model {
 	protected String data;
 	protected String token;
 	protected String everyId;
+	
 	
 	protected boolean stop = false;
 	
@@ -68,6 +74,11 @@ public class Model {
 							
 							
 							newestMessage.set(msg.toString());
+							if(newMessage.equals(null)) {
+								newMessage.set(0);
+							} else {
+								
+							}
 						}catch (Exception e) {
 						}
 					}

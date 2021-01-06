@@ -89,7 +89,7 @@ public class Controller {
 			
 			// Display reply from the server to the user
 			Platform.runLater(() -> {
-				view.lblServer.setText("Reply from server: " + newValue);
+				view.lblServer.setText("Reply from server: " + newestMessage);
 			});
 			
 			//newestMessage = newValue;
