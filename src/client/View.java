@@ -81,9 +81,9 @@ public class View {
 		alertItem.setHeaderText("Please select an item");
 		
 		//Change Password
-		changePassword.setTitle("Set new Password");
-		changePassword.setHeaderText("Enter your new password:");
-		changePassword.setContentText("New password:");
+		changePassword.setTitle("Set new Password (min. 6 characters)");
+		changePassword.setHeaderText("Enter your new password (min. 6 characters):");
+		changePassword.setContentText("New password (min. 6 characters):");
 		
 		// set loinView at the start
 		loginView();

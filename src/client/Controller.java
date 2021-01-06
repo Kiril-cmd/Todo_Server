@@ -85,14 +85,15 @@ public class Controller {
 			model.Logout();
 		});
 		
+		model.newestMessage.addListener((observable, oldValue, newValue) -> {
+			Platform.runLater(() -> {
+				view.lblServer.setText("Reply from server: " + newValue);
+			});
+		});		
+		
 		model.newMessage.addListener((observable, oldValue, newValue) -> {
 			
 			// Display reply from the server to the user
-			Platform.runLater(() -> {
-				view.lblServer.setText("Reply from server: " + newestMessage);
-			});
-			
-			//newestMessage = newValue;
 			
 			if (model.lastSentMessage.equals("CreateLogin")) {
 				if(model.result) {

@@ -56,7 +56,7 @@ public class Model {
 		logger.info("Connect");
 		try {
 			socket = new Socket(ipAddress, port);
-			
+			newMessage.set(messageCounter);
 			// Create thread to read incoming messages
 			Runnable r = new Runnable() {
 				@Override
