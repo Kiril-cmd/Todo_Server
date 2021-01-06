@@ -47,10 +47,10 @@ public class Model {
 	}
 	
 	
-	public void connect(String ipAddress, int Port) {
+	public void connect(String ipAddress, int port) {
 		logger.info("Connect");
 		try {
-			socket = new Socket(ipAddress, Port);
+			socket = new Socket(ipAddress, port);
 			
 			// Create thread to read incoming messages
 			Runnable r = new Runnable() {
@@ -65,9 +65,10 @@ public class Model {
 							
 							System.out.println(msg);
 							// Do it always at the end
+							
+							
 							newestMessage.set(msg.toString());
 						}catch (Exception e) {
-							
 						}
 					}
 				}

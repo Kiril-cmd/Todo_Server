@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.sun.net.httpserver.Authenticator.Result;
 
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
 import userData.Priority;
 
 public class Controller {
@@ -19,12 +20,8 @@ public class Controller {
 		this.model = model;
 		this.view = view;
 		
-		
-		
 		view.btnLogin.setDisable(true);
 		view.btnRegister.setDisable(true);
-		
-		
 		
 		view.btnConnect.setOnAction(event -> {
 			String ip = view.txtIpAddress.getText();
@@ -79,7 +76,7 @@ public class Controller {
 		
 		view.btnChangePassword.setOnAction(event -> {
 			Optional<String> OpNewPassword = view.changePassword.showAndWait();
-			String newPassword = OpNewPassword.toString();
+			String newPassword = OpNewPassword.get();
 			
 			model.ChangePassword(model.token, newPassword);
 		});
@@ -116,7 +113,9 @@ public class Controller {
 					});
 				}
 			} else if (model.lastSentMessage.equals("ChangePassword")) {
-				
+				if(model.result) {
+					System.out.println("Your password was successfully changed");
+				} else System.out.println("Error");
 			} else if (model.lastSentMessage.equals("Logout")) {
 				if(model.result) {
 					model.token = null;
@@ -206,6 +205,7 @@ public class Controller {
 			} else if (model.lastSentMessage.equals("Result")) {
 				
 			}
+			
 		});
 		
 		
