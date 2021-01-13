@@ -36,6 +36,7 @@ public class App_Model extends Model {
         serviceLocator.getLogger().info("Application model initialized");
     }
     
+    // starts server & creates new client objects
     public void startServer(int port) {
     	serviceLocator.getLogger().info("Start Server");
     	try {
@@ -64,6 +65,7 @@ public class App_Model extends Model {
     	}
     }
     
+    // No UI implemented so far and for this reason not used. Could be used by later implementation of a UI.
     public void stopServer() {
     	serviceLocator.getLogger().info("Stop running clients");
     	for (Client client : clients)
@@ -250,7 +252,7 @@ public class App_Model extends Model {
 	}
 	
 	public void getPing(String token, Client client) {
-		serviceLocator.getLogger().info("Give ping");
+		serviceLocator.getLogger().info("Send ping");
 		if ((token == null && client.getToken() == null) 
 				|| (token != null && client.validateToken(token)))
 			answerValidRequest(client);
@@ -258,14 +260,14 @@ public class App_Model extends Model {
 			answerInvalidRequest(client);
 	}
 	
-	// answers client if only the result must be send
+	// answers client with valid reply if only the result must be send
 	public void answerValidRequest(Client client) {
 		serviceLocator.getLogger().info("Reply valid request without data");
 		Result_msg msg = new Result_msg("true");
 		client.send(msg);
 	}
 	
-	// answers client if the result and data are required
+	// answers client with valid reply if the result and data are required
 	public void answerValidRequest(Client client, String data) {
 		serviceLocator.getLogger().info("Reply valid request with data");
 		Result_msg msg = new Result_msg("true", data);
@@ -279,6 +281,7 @@ public class App_Model extends Model {
 		client.send(msg);
 	}
 	
+	// removes client from arrayList
 	public void removeClient(Client client) {
 		serviceLocator.getLogger().info("Remove client: " + client.toString());
 		clients.remove(client);
