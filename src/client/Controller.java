@@ -187,7 +187,6 @@ public class Controller {
 								} catch (InterruptedException e) {
 								}
 							}
-								
 						}
 					};
 					Thread t = new Thread(r);
@@ -203,10 +202,7 @@ public class Controller {
 				} else {
 					System.out.println("Connection could not be established with the server");
 				}
-			} else if (model.lastSentMessage.equals("Result")) {
-				
-			}
-			
+			} 
 		});
 		
 		

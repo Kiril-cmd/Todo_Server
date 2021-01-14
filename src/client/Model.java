@@ -99,24 +99,6 @@ public class Model {
 			}
 	}
 
-//	public void sendMessage() {
-//		// Create thread to send messages
-//		Runnable r = new Runnable() {
-//			@Override
-//			public void run() {
-//			logger.info("Send message");
-//			
-//				while(true) {
-//					Message msg = null;
-//					
-//					String msgParts[] = command.split("\\|");
-//				}
-//			}
-//		};
-//		Thread t = new Thread(r);
-//		t.start();
-//	}
-	
 	// Commands
 	public void CreateLogin(String email, String password) {
 		lastSentMessage = "CreateLogin";
