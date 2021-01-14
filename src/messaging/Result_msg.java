@@ -3,7 +3,6 @@ package messaging;
 public class Result_msg extends Message {
 	private boolean result;
 	private String data;
-	private String token;
 	
 	public Result_msg(String result) {
 		super(MessageType.Result);
