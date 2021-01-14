@@ -7,9 +7,10 @@ public class Account {
 	private String userName;
 	private String password;
 	private ArrayList<ToDo> toDoList;
+	private int toDoIdCounter = -1;
 	
 	
-	public Account (String userName, String password){
+	public Account (String userName, String password) {
 		this.userName = userName;
 		this.password = password;
 		this.toDoList = new ArrayList<>();
@@ -93,5 +94,10 @@ public class Account {
 			valid = true;
 		
 		return valid;
+	}
+	
+	public int generateToDoId() {
+		toDoIdCounter++;
+		return toDoIdCounter;
 	}
 }

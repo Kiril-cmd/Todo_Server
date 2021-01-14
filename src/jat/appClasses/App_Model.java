@@ -158,19 +158,18 @@ public class App_Model extends Model {
 		}
 		
 		ToDo toDo = null;
-		if (dueDate == null) {
-			toDo = new ToDo(title, priority, description);
-		} else if (dueDate != null && ToDo.validateDueDate(dueDate)) {
-			toDo = new ToDo(title, priority, description, dueDate);
-		} else {
-			answerInvalidRequest(client);
-			return;
-		}
-		
 		serviceLocator.getLogger().info("Store new todo");
 		synchronized(accounts) {
 			for (Account account : accounts) {
 				if (account.getUserName().equals(client.getUserName())) {
+					if (dueDate == null) {
+						toDo = new ToDo(account.generateToDoId(), title, priority, description);
+					} else if (dueDate != null && ToDo.validateDueDate(dueDate)) {
+						toDo = new ToDo(account.generateToDoId(), title, priority, description, dueDate);
+					} else {
+						answerInvalidRequest(client);
+						return;
+					}									
 					account.addToDo(toDo);
 					answerValidRequest(client, Integer.toString(toDo.getId()));
 					break;

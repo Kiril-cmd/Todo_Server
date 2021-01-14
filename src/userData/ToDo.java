@@ -5,22 +5,22 @@ import java.time.format.DateTimeFormatter;
 
 public class ToDo {
 	private int id;
-	private static int counter = -1;
+//	private static int counter = -1;
 	private String title;
 	private Priority priority;
 	private String description;
 	private LocalDate dueDate = null;
 		
-	public ToDo(String title, Priority priority, String description, LocalDate dueDate) {
-		this.id = ++counter;
-		this.title = title;
-		this.priority = priority;
-		this.description = description;
-		this.dueDate = dueDate;
-	}
+//	public ToDo(String title, Priority priority, String description, LocalDate dueDate) {
+//		this.id = ++counter;
+//		this.title = title;
+//		this.priority = priority;
+//		this.description = description;
+//		this.dueDate = dueDate;
+//	}
 	
-	public ToDo(String title, Priority priority, String description) {
-		this.id = ++counter;
+	public ToDo(int id, String title, Priority priority, String description) {
+		this.id = id;
 		this.title = title;
 		this.priority = priority;
 		this.description = description;
