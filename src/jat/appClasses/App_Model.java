@@ -102,22 +102,29 @@ public class App_Model extends Model {
     	answerValidRequest(client);
     }
 
-	public synchronized void login(String userName, String password, Client client) {
-		boolean exists = false;
-		Iterator<Account> iterator = accounts.iterator();
-		
-		while (iterator.hasNext() && exists == false) {
-			Account account = iterator.next();
-			if (account.getUserName().equals(userName) && account.getPassword().equals(password)) {
-				serviceLocator.getLogger().info("Login user: " + userName);
-				client.setToken();
-				client.setUserName(userName);
-				answerValidRequest(client, client.getToken());
-				exists = true;
-			}
-		}
-		if (!exists)
+	public void login(String userName, String password, Client client) {
+		if (client.getToken() != null) {
 			answerInvalidRequest(client);
+			return;
+		}
+		
+		synchronized(accounts) {
+			boolean exists = false;
+			Iterator<Account> iterator = accounts.iterator();
+			
+			while (iterator.hasNext() && exists == false) {
+				Account account = iterator.next();
+				if (account.getUserName().equals(userName) && account.getPassword().equals(password)) {
+					serviceLocator.getLogger().info("Login user: " + userName);
+					client.setToken();
+					client.setUserName(userName);
+					answerValidRequest(client, client.getToken());
+					exists = true;
+				}
+			}
+			if (!exists)
+				answerInvalidRequest(client);
+		}
 	}
 	
 	public void changePassword(String newPassword, String token, Client client) {	
