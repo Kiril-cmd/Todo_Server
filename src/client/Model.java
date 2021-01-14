@@ -37,10 +37,7 @@ public class Model {
 	protected String token;
 	protected String everyId;
 	
-	
 	protected boolean stop = false;
-	
-	
 	
 	public void addNewTodo(int id, String title, Priority priority, String description, LocalDate dueDate) {
 		todos.add(new ToDo(id, title, priority, description, dueDate));
@@ -74,11 +71,7 @@ public class Model {
 							
 							newestMessage.set(msg.toString());
 							newMessage.set(++messageCounter);
-//							if(newMessage.equals(null)) {
-//								newMessage.set(0);
-//							} else {
-//								
-//							}
+
 						}catch (Exception e) {
 						}
 					}

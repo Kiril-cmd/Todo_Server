@@ -80,7 +80,7 @@ public class Controller {
 			
 			model.ChangePassword(model.token, newPassword);
 		});
-		
+
 		view.btnLogout.setOnAction(event -> {
 			model.Logout();
 		});
