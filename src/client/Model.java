@@ -31,7 +31,7 @@ public class Model {
 	protected final ObservableList<ToDo> todos = FXCollections.observableArrayList();
 	
 	protected boolean connectionfailed = false;
-	protected String lastSentMessage = null;
+	protected String lastSentMessage = "";
 	protected boolean result;
 	protected String data;
 	protected String token;
