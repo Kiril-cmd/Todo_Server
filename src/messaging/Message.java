@@ -35,7 +35,9 @@ public abstract class Message {
 				} else if (msgParts[0].equals(MessageType.Logout.toString())) {
 					msg = new Logout_msg();
 				} else if (msgParts[0].equals(MessageType.CreateToDo.toString())) {
-					if (msgParts.length < 6)
+					if (msgParts.length < 5)
+						msg = new CreateToDo_msg(msgParts[1], msgParts[2], msgParts[3], "");
+					else if (msgParts.length < 6)
 						msg = new CreateToDo_msg(msgParts[1], msgParts[2], msgParts[3], msgParts[4]);
 					else
 						msg = new CreateToDo_msg(msgParts[1], msgParts[2], msgParts[3], msgParts[4], msgParts[5]);

@@ -169,9 +169,9 @@ public class App_Model extends Model {
 		synchronized(accounts) {
 			for (Account account : accounts) {
 				if (account.getUserName().equals(client.getUserName())) {
-					if (dueDate == null) {
+					if (dueDate == null && ToDo.validateToDoData(title, description)) {
 						toDo = new ToDo(account.generateToDoId(), title, priority, description);
-					} else if (dueDate != null && ToDo.validateDueDate(dueDate)) {
+					} else if (dueDate != null && ToDo.validateToDoData(title, description, dueDate)) {
 						toDo = new ToDo(account.generateToDoId(), title, priority, description, dueDate);
 					} else {
 						answerInvalidRequest(client);

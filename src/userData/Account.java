@@ -90,7 +90,7 @@ public class Account {
 	
 	public static boolean validatePassword(String password) {
 		boolean valid = false;	
-		if (password.length() > 5)
+		if (password.length() > 2 && password.length() < 21)
 			valid = true;
 		
 		return valid;
