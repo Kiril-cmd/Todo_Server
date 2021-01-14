@@ -28,7 +28,7 @@ public class View {
 	// Login
 	Label lblEmail = new Label("Enter your current email or your new email (***@**.**): ");
 	TextField txtEmail = new TextField();
-	Label lblPassword = new Label ("Enter your current password or your new password (min. 6 characters): ");
+	Label lblPassword = new Label ("Enter your current password or your new password (3-20 characters): ");
 	TextField txtPassword = new TextField();
 	Button btnLogin = new Button("Login");
 	Button btnRegister = new Button("Register new account");
@@ -40,6 +40,8 @@ public class View {
 	Button btnConnect = new Button("Connect");
 	Button btnChangePassword = new Button("Change Password");
 	Alert alertConnection = new Alert(AlertType.ERROR);
+	Alert alertRegister = new Alert(AlertType.ERROR);
+	Alert alertConfirmRegister = new Alert(AlertType.CONFIRMATION);
 	
 	// Add Todos
 	Label lblMytodos = new Label ("My Todos");
@@ -60,6 +62,8 @@ public class View {
 	Label lblNewPassword = new Label("Enter your new password");
 	TextField txtNewPassword = new TextField();
 	Button btnOk = new Button("OK");
+	Alert alertPassword = new Alert(AlertType.WARNING);
+	Alert alertToDo = new Alert(AlertType.ERROR);
 	
 	// Root
 	BorderPane root = new BorderPane();
@@ -80,10 +84,25 @@ public class View {
 		
 		alertItem.setHeaderText("Please select an item");
 		
+		alertPassword.setTitle("Unable to reset password");
+		alertPassword.setHeaderText("Your password was not reset because it must be 3-20 characters");
+		
+		alertToDo.setTitle("Error");
+		alertToDo.setHeaderText("Unable to create a new todo because the title must be of 3-20 characters \r\n"
+				+ "the description of 0-255 characters or empty");
+		
+		alertRegister.setTitle("Error");
+		alertRegister.setHeaderText("Please make sure your user name is like follows \n"
+				+ "email: ***@**.** \n your password must contain 3-20 characters");
+		
+		alertConfirmRegister.setTitle("Confirmation");
+		alertConfirmRegister.setHeaderText("Account successfully created, please login");
+		
 		//Change Password
-		changePassword.setTitle("Set new Password (min. 6 characters)");
-		changePassword.setHeaderText("Enter your new password (min. 6 characters):");
-		changePassword.setContentText("New password (min. 6 characters):");
+		changePassword.setTitle("Set new Password (3-20 characters)");
+		changePassword.setHeaderText("Enter your new password (3-20 characters):");
+		changePassword.setContentText("New password (3-20 characters):");
+		
 		
 		// set loinView at the start
 		loginView();
