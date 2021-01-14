@@ -143,7 +143,7 @@ public class View {
 		root.setCenter(gridPane);
 		root.setBottom(todoList);
 				
-		Scene scene = new Scene(root);
+		Scene scene = new Scene(root, 800, 550);
 		stage.setScene(scene);
 		scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 		stage.setTitle("Client");
