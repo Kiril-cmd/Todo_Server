@@ -202,11 +202,8 @@ public class Controller {
 				} else {
 					System.out.println("Connection could not be established with the server");
 				}
-			} 
+			}
 		});
-		
-		
-		
 		
 		
 		view.stage.setOnCloseRequest(event -> model.disconnect());
