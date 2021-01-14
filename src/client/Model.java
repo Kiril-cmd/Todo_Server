@@ -40,6 +40,7 @@ public class Model {
 	protected boolean stop = false;
 	
 	public void addNewTodo(int id, String title, Priority priority, String description, LocalDate dueDate) {
+		
 		todos.add(new ToDo(id, title, priority, description, dueDate));
 	}
 

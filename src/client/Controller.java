@@ -97,10 +97,15 @@ public class Controller {
 			
 			if (model.lastSentMessage.equals("CreateLogin")) {
 				if(model.result) {
-					view.alertConfirmRegister.showAndWait();
+					
+					Platform.runLater(() -> {
+						view.alertConfirmRegister.showAndWait();
+					});
 					System.out.println("Account successfully created, please login");
 				} else {
-					view.alertRegister.showAndWait();
+					Platform.runLater(() -> {
+						view.alertRegister.showAndWait();
+					});
 					System.out.println("Wrong data");
 				}
 			} else if (model.lastSentMessage.equals("Login")) {
@@ -118,7 +123,12 @@ public class Controller {
 			} else if (model.lastSentMessage.equals("ChangePassword")) {
 				if(model.result) {
 					System.out.println("Your password was successfully changed");
-				} else view.alertPassword.showAndWait();
+					
+				} else {
+					Platform.runLater(() -> {
+						view.alertPassword.showAndWait();
+						});
+				}
 			} else if (model.lastSentMessage.equals("Logout")) {
 				if(model.result) {
 					model.token = null;
@@ -138,7 +148,9 @@ public class Controller {
 					id = model.data;
 					model.GetTodo(model.token, id);
 				} else {
-					view.alertToDo.showAndWait();
+					Platform.runLater(() -> {
+						view.alertToDo.showAndWait();
+					});
 					System.out.println("Could not create a new Todo for some reason");
 				}
 			} else if (model.lastSentMessage.equals("GetTodo")) {
@@ -146,7 +158,11 @@ public class Controller {
 				int id = Integer.parseInt(msgParts[0]);
 				String title = msgParts[1];
 				Priority priority = Priority.valueOf(msgParts[2]);
-				String description = msgParts[3];
+				String description;
+				if (model.result && msgParts.length > 3) {
+					description = msgParts[3];
+				} else
+					description = "";
 				LocalDate dueDate;
 				
 				if(model.result && msgParts.length >= 5) {
@@ -155,6 +171,7 @@ public class Controller {
 						model.addNewTodo(id, title, priority, description, dueDate);
 					});
 				} else if (model.result && msgParts.length < 5) {
+					
 					dueDate = null;
 					Platform.runLater(() -> {
 						model.addNewTodo(id, title, priority, description, dueDate);
@@ -163,6 +180,7 @@ public class Controller {
 					System.out.println("The server didn't send any todo");
 					model.ListTodos(model.token);
 				}
+				
 			} else if (model.lastSentMessage.equals("DeleteTodo")) {
 				if(model.result) {
 					Platform.runLater(() -> {

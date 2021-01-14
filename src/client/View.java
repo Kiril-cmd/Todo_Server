@@ -41,7 +41,7 @@ public class View {
 	Button btnChangePassword = new Button("Change Password");
 	Alert alertConnection = new Alert(AlertType.ERROR);
 	Alert alertRegister = new Alert(AlertType.ERROR);
-	Alert alertConfirmRegister = new Alert(AlertType.CONFIRMATION);
+	Alert alertConfirmRegister = new Alert(AlertType.INFORMATION);
 	
 	// Add Todos
 	Label lblMytodos = new Label ("My Todos");
@@ -93,7 +93,7 @@ public class View {
 		
 		alertRegister.setTitle("Error");
 		alertRegister.setHeaderText("Please make sure your user name is like follows \n"
-				+ "email: ***@**.** \n your password must contain 3-20 characters");
+				+ "email: ***@**.** \nyour password must contain 3-20 characters");
 		
 		alertConfirmRegister.setTitle("Confirmation");
 		alertConfirmRegister.setHeaderText("Account successfully created, please login");
