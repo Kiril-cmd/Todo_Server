@@ -97,8 +97,10 @@ public class Controller {
 			
 			if (model.lastSentMessage.equals("CreateLogin")) {
 				if(model.result) {
+					view.alertConfirmRegister.showAndWait();
 					System.out.println("Account successfully created, please login");
 				} else {
+					view.alertRegister.showAndWait();
 					System.out.println("Wrong data");
 				}
 			} else if (model.lastSentMessage.equals("Login")) {
@@ -116,7 +118,7 @@ public class Controller {
 			} else if (model.lastSentMessage.equals("ChangePassword")) {
 				if(model.result) {
 					System.out.println("Your password was successfully changed");
-				} else System.out.println("Error");
+				} else view.alertPassword.showAndWait();
 			} else if (model.lastSentMessage.equals("Logout")) {
 				if(model.result) {
 					model.token = null;
@@ -136,6 +138,7 @@ public class Controller {
 					id = model.data;
 					model.GetTodo(model.token, id);
 				} else {
+					view.alertToDo.showAndWait();
 					System.out.println("Could not create a new Todo for some reason");
 				}
 			} else if (model.lastSentMessage.equals("GetTodo")) {
