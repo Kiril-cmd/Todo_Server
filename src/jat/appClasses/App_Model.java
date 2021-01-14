@@ -29,7 +29,6 @@ public class App_Model extends Model {
     ServiceLocator serviceLocator;
     ServerSocket listener;
     private volatile boolean stop = false;
-//    private Iterator<Account> acIterator = accounts.iterator();
     
     public App_Model() {
         serviceLocator = ServiceLocator.getServiceLocator();        
