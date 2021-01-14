@@ -49,7 +49,7 @@ public class View {
 	ComboBox<userData.Priority> cmbPriority = new ComboBox<>();
 	Label lblDescription = new Label("Description");
 	TextField txtDescription = new TextField();
-	Label lblDuedate = new Label("Due date");
+	Label lblDuedate = new Label("Due date (from today on)");
 	DatePicker dueDate = new DatePicker();
 	Button btnAddtodo = new Button("Add new todo");
 	Button btnDelete = new Button("Delete");
