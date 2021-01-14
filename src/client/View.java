@@ -136,6 +136,9 @@ public class View {
 		listView = new ListView<>(model.todos);
 		// Clear everything before loading
 		model.todos.clear();
+		listView.setPrefWidth(400);
+		btnDelete.setPrefWidth(60);
+		lblServer.setMaxWidth(200);
 		HBox todoList = new HBox(listView, spacer3, btnDelete, spacer5, lblServer);
 		
 		BorderPane root = new BorderPane();
