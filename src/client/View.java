@@ -49,7 +49,7 @@ public class View {
 	ComboBox<userData.Priority> cmbPriority = new ComboBox<>();
 	Label lblDescription = new Label("Description");
 	TextField txtDescription = new TextField();
-	Label lblDuedate = new Label("Due date");
+	Label lblDuedate = new Label("Due date (from today on)");
 	DatePicker dueDate = new DatePicker();
 	Button btnAddtodo = new Button("Add new todo");
 	Button btnDelete = new Button("Delete");
@@ -138,7 +138,7 @@ public class View {
 		model.todos.clear();
 		listView.setPrefWidth(400);
 		btnDelete.setPrefWidth(60);
-		lblServer.setMaxWidth(200);
+		lblServer.setMaxWidth(250);
 		HBox todoList = new HBox(listView, spacer3, btnDelete, spacer5, lblServer);
 		
 		BorderPane root = new BorderPane();
@@ -146,7 +146,7 @@ public class View {
 		root.setCenter(gridPane);
 		root.setBottom(todoList);
 				
-		Scene scene = new Scene(root, 800, 550);
+		Scene scene = new Scene(root, 900, 550);
 		stage.setScene(scene);
 		scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 		stage.setTitle("Client");
