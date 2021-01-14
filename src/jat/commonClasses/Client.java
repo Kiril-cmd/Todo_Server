@@ -19,6 +19,7 @@ public class Client {
 		this.model = model;
 		this.socket = socket;
 		
+		// runnable receives & categorizes messages if client is active
 		Runnable runnable = new Runnable() {
 			@Override
 			public void run() {
@@ -53,11 +54,7 @@ public class Client {
 					} else if (msg instanceof Invalid_msg) {
 						model.answerInvalidRequest(Client.this);
 					} else if (msg instanceof Leave_msg) {
-						stop = true;
-						try {
-							socket.close();
-						} catch (Exception e) {
-						}
+						stop();
 						model.removeClient(Client.this);
 					}
 				}
@@ -71,15 +68,18 @@ public class Client {
 		msg.sendMessage(socket);
 	}
 	
+	// stops runnable & closes socket
 	public void stop() {
+		stop = true;
+		serviceLocator.getLogger().info("Stop client");
 		try {
-			serviceLocator.getLogger().info("Stop client");
 			this.socket.close();
 		} catch (IOException e) {
 			serviceLocator.getLogger().info(e.toString());
 		}
 	}
 	
+	// generates token with a size of 20 chars
 	public static String generateToken() {
 		int stringSize = 20;
 		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
